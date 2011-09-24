@@ -89,12 +89,12 @@ endif
 ifeq (${DYNLINK},1)
 pianobar: ${PIANOBAR_OBJ} ${PIANOBAR_HDR} libpiano.so.0
 	${CC} -o $@ ${PIANOBAR_OBJ} ${LDFLAGS} alist.o basic.o -lao -lpthread \
-	-lm -L. -lpiano ${LIBFAAD_LDFLAGS} ${LIBMAD_LDFLAGS}
+	-lm -lrt -L. -lpiano ${LIBFAAD_LDFLAGS} ${LIBMAD_LDFLAGS}
 else
 pianobar: ${PIANOBAR_OBJ} ${PIANOBAR_HDR} ${LIBPIANO_OBJ} ${LIBWAITRESS_OBJ} \
 		${LIBWAITRESS_HDR} ${LIBEZXML_OBJ} ${LIBEZXML_HDR}
 	${CC} ${CFLAGS} ${LDFLAGS} ${PIANOBAR_OBJ} ${LIBPIANO_OBJ} \
-			${LIBWAITRESS_OBJ} ${LIBEZXML_OBJ} -lao -lpthread -lm \
+			${LIBWAITRESS_OBJ} ${LIBEZXML_OBJ} -lrt -lao -lpthread -lm \
 			${LIBFAAD_LDFLAGS} ${LIBMAD_LDFLAGS} -o $@
 endif
 
