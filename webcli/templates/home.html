@@ -41,6 +41,7 @@
 
 <div id="jp_container_1" class="jp-audio">
 	<div class="jp-type-single">
+		<img data-bind="attr: { src: coverArt() } " />
 		<div class="jp-gui jp-interface">
 			<ul class="jp-controls">
 				<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
@@ -71,12 +72,12 @@
 		</div>
 		<br />
 		<div>
-			<form action="/search/" method="GET">
-				<input type="text" data-bind="value: searchText" />
+			<form action="/ajax/search/" method="GET">
+				<input type="text" placeholder="Search Tuneshare" data-bind="value: searchText" />
 				<input type="submit" value="Search" />
 			</form>
 		</div>
-		<ul data-bind="foreach: searchResults, template: searchResultTemplate"></ul>
+		<ul data-bind="foreach: searchResults, template: { name: 'searchResultTemplate' }"></ul>
 		<script type="text/x-jquery-tmpl" id="searchResultTemplate">
 			<li></li>
 		</script>
@@ -94,8 +95,8 @@
 		</footer>
 	</div> <!-- #wrapper -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-	<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js"></script>
 	<script type="text/javascript" src="https://raw.github.com/jquery/jquery-tmpl/master/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js"></script>
 	<script type="text/javascript" src="/static/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="/static/add-on/jquery.jplayer.inspector.js"></script>
 	<script type="text/javascript" src="/static/init.js"></script>
