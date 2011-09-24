@@ -49,8 +49,8 @@
 		},
 		
 		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			console.log('update')
-			$("#jquery_jplayer_1").jPlayer({
+			console.log('update: ', viewModel.songUrl())
+				$("#jquery_jplayer_1").jPlayer({
 				ready: function (event) {
 					$(this).jPlayer("setMedia", {
 						"m4a": viewModel.songUrl(),
@@ -72,7 +72,7 @@
 		this.songUrl = ko.observable();
 		this.seekTime = ko.observable();
 	}
-	var viewModel = new ViewModel();
+	window.viewModel = new ViewModel();
 	
 	$(document).ready(function(){
 		$.ajax({
