@@ -534,7 +534,7 @@ static bool ts_create_station(BarApp_t* app, const char* search) {
 	return ret;
 }
 
-int main() {
+int main2() {
 	static BarApp_t app;
 	memset (&app, 0, sizeof (app));
 
@@ -581,6 +581,50 @@ int main() {
 
 	/* Works! Seriously!
 	 * assert(ts_create_station(&app, "Pink Floyd")); */
+
+	return 0;
+}
+
+struct parserState {
+	char* buf; /* Set to msg. */
+	int nextPos; /* Set to 0. */
+};
+
+void getString(struct parserState* p, char* dest) {
+	char* src = p->buf + p->nextPos;
+	int len = strlen(src);
+	memcpy(dest, src, len);
+	p->nextPos = p->nextPos + len + 1;
+}
+
+int main() {
+	/* while (1) {
+		Read from the incoming job queue.
+		Once you aquire a job, determine what type it is;
+			1. create-station(search) => created-ack, roomId
+			2. delete-station(roomId) => deleted-ack, roomId
+			3. love-track(roomId) => loved-ack, roomId
+			4. ban-track(roomId) => banned-ack, roomId
+			5. update-station(roomId, search) => updated-ack, roomId
+			6. get-new-song(roomId) => new-song-ack, roomId, audioUrl, title, artist, album, coverArt
+		... and write the result into the completed task queue.
+	*/
+
+	struct parserState p;
+	char myBuf[] = {'h', 'e', 'l', 'l', 'o', 0, 'm', 'y', 0, 'n', 'a', 'm', 'e', 0};
+	p.buf = &myBuf;
+	p.nextPos = 0;
+
+	char buf[120];
+	memset(&buf, 0, 120);
+	getString(&p, buf);
+	puts(buf);
+	memset(&buf, 0, 120);
+	getString(&p, buf);
+	puts(buf);
+	memset(&buf, 0, 120);
+	getString(&p, buf);
+	puts(buf);
 
 	return 0;
 }
