@@ -12,6 +12,7 @@
 					});
 				},
 				ended: function (event) {
+					updateVM();
 					$(this).jPlayer("setMedia", {
 						"m4a": viewModel.songUrl(),
 					});
@@ -76,15 +77,3 @@
 		ko.applyBindings(viewModel);
 	});
 }(jQuery));
-
-function insert_message(msg) {
-	$.ajax({
-		url: "192.168.56.101:8001/msg",
-		data: {
-			
-		},
-		success: function(data) {
-			
-		},
-	});
-}
