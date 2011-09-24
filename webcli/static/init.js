@@ -9,7 +9,7 @@
 				ready: function (event) {
 					$(this).jPlayer("setMedia", {
 						"m4a": viewModel.songUrl(),
-					});
+					}).jPlayer("play");
 				},
 				ended: function (event) {
 					updateVM();
@@ -30,6 +30,9 @@
 	{
 		this.coverArt = ko.observable();
 		this.songUrl = ko.observable();
+		this.title = ko.observable();
+		this.artist = ko.observable();
+		this.album = ko.observable();
 		
 		this.searchText = ko.observable('');
 		this.searchResults = ko.observableArray([]);
@@ -58,11 +61,17 @@
 		if (data) {
 			viewModel.songUrl(data['songUrl']);
 			viewModel.coverArt(data['coverArt']);
+			viewModel.title(data['title']);
+			viewModel.artist(data['artist']);
+			viewModel.album(data['album']);
 		} else {
 			$.getJSON('/ajax/all/', function(data)
 			{
 				viewModel.songUrl(data['songUrl']);
 				viewModel.coverArt(data['coverArt']);
+				viewModel.title(data['title']);
+				viewModel.artist(data['artist']);
+				viewModel.album(data['album']);
 			});
 		}
 	}

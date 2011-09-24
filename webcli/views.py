@@ -22,21 +22,17 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 			user = authenticate(username=logform.cleaned_data['username'], password=logform.cleaned_data['password'])
 			if user:
 				login(req, user)
-				return HttpResponseRedirect('/')
-			else:
-				messages.add_message(req, messages.ERROR, "Your login information is incorrect. Please try again.")
-		if regform.is_valid():
+		elif regform.is_valid():
 			if User.objects.filter(username=regform.cleaned_data['username']).exists():
-				messages.add_message(req, messages.ERROR, "This username is already in use.")
+				pass
 			else:
 				user = User.objects.create_user(regform.cleaned_data['username'], email='', password=regform.cleaned_data['password'])
 				user.save()
-				user = authenticate()
+				user = authenticate(regform.cleaned_data['username'], password=regform.cleaned_data['password'])
 				login(req, user)
 				messages.add_message(req, messages.SUCCESS, "Welcome to Tuneshare!")
-				return HttpResponseRedirect('/')
+				pass
 		return HttpResponseRedirect('/')
-	
 	else:
 		return render_to_response('index.html', {
 			'title': "Welcome to Tuneshare",

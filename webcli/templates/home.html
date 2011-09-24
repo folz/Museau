@@ -52,7 +52,9 @@
 				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>				
 			</ul>
 			<div class="jp-progress">
-				<div class="jp-play-bar"></div>
+				<div class="jp-seek-bar">
+					<div class="jp-play-bar"></div>
+				</div>
 			</div>
 			<div class="jp-volume-bar">
 				<div class="jp-volume-bar-value"></div>
@@ -64,7 +66,7 @@
 		</div>
 		<div class="jp-title">
 			<ul>
-				<li>Bubble</li>
+				<li>Now playing <span data-bind="text: title"></span> by <span data-bind="text: artist"></span> on <span data-bind="text: album"></span></li>
 			</ul>
 		</div>
 		<div class="jp-no-solution">

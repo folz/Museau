@@ -14,18 +14,24 @@ def do(req, action):
 	command = stdout_handle.readline()
 	arguments = command.rstrip('\x00').split('\0', 10)
 	
+	os.system('./wserv_download 1 new-song')
+	
 	print(arguments)
 	
 	x = HttpResponse(json.dumps({
-		'coverArt': arguments[5],
 		'songUrl': arguments[1],
+		'title': arguments[2],
+		'artist': arguments[3],
+		'album': arguments[4],
+		'coverArt': arguments[5],
 	}))
 	x['Cache-Control'] = 'no-cache'
 	return x
 
 def search(req):
 	terms = req.GET.get('searchText')
-	print("terms", terms)
+	
+	os.system('./wserv_download 1 search-text {0}'.format(terms))
 	
 	return HttpResponse(json.dumps(terms));
 
