@@ -610,7 +610,7 @@ int main() {
 		... and write the result into the completed task queue.
 	*/
 
-	struct parserState p;
+	/* struct parserState p;
 	char myBuf[] = {'h', 'e', 'l', 'l', 'o', 0, 'm', 'y', 0, 'n', 'a', 'm', 'e', 0};
 	p.buf = &myBuf;
 	p.nextPos = 0;
@@ -624,7 +624,12 @@ int main() {
 	puts(buf);
 	memset(&buf, 0, 120);
 	getString(&p, buf);
-	puts(buf);
+	puts(buf); */
 
+	char cmd[1024];
+	memset(&cmd, 0, 1024);
+	snprintf(&cmd, 1024, "./wserv_download 1 %s %s %s %s %s %s",
+		"new-song", "url", "title", "artist", "album", "coverArt");
+	system(&cmd);
 	return 0;
 }
