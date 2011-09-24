@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from webcli.models import *
+from webcli.forms import *
 
 def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 	if req.user.is_authenticated():
