@@ -535,7 +535,7 @@ static bool ts_create_station(BarApp_t* app, const char* search) {
 	return ret;
 }
 
-int main2() {
+int main4() {
 	static BarApp_t app;
 	memset (&app, 0, sizeof (app));
 
@@ -610,6 +610,21 @@ int mq_openR()
 	return mq;
 }
 
+char* cleanStr(char* in) {
+	static char tmp[1024];
+	memset(&tmp, 0, 1024);
+	int i = 0, t = 0;
+	while (in[i]) {
+		if (in[i] == '\'') {
+			tmp[t++] = '\\';
+		}
+		tmp[t] = in[i];
+		++i;
+		++t;
+	}
+	return strdup(tmp);
+}
+
 void mq_take(char * buf)
 {
 	mq = mq_openR();
@@ -629,6 +644,15 @@ void mq_take(char * buf)
 			//cout << buf << '\n';
 		}
 	}
+}
+
+bool hasCrap(char* s) {
+	for (int k=0; s[k]; ++k) {
+		if (s[k] == '\'') {
+			return true;
+		}
+	}
+	return false;
 }
 
 int main() {
@@ -672,6 +696,20 @@ int main() {
 	memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
 	ts_get_playlist(&app);
 
+	static char cmd[1024];
+	for (int k=0; k < 4; ++k) {
+		memset(&cmd, 0, 1024);
+		if (hasCrap(app.playlist->title) || hasCrap(app.playlist->artist) || hasCrap(app.playlist->album)) {
+			k--;
+		} else {
+			snprintf(&cmd, 1024, "./wserv_upload 1 %s '%s' '%s' '%s' '%s' %s",
+				"new-song", app.playlist->audioUrl, app.playlist->title,
+				app.playlist->artist, app.playlist->album, app.playlist->coverArt);
+			system(&cmd);
+			ts_next_song(&app);
+		}
+	}
+
 	while (1) {
 		static char msg[1024];
 		memset(&msg, 0, 1024);
@@ -680,35 +718,27 @@ int main() {
 		p.buf = &msg;
 		p.nextPos = 0;
 
+		do {
+			if (hasCrap(app.playlist->title) || hasCrap(app.playlist->artist) || hasCrap(app.playlist->album)) {
+				break;
+			}
+		} while(ts_next_song(&app));
+
 		char type[256];
 		memset(&type, 0, 256);
 		getString(&p, &type);
+		memset(&cmd, 0, 1024);
 		if (!strcmp(type, "new-song")) {
-			static char cmd[1024];
-			memset(&cmd, 0, 1024);
 			snprintf(&cmd, 1024, "./wserv_upload 1 '%s' '%s' '%s' '%s' '%s' '%s'",
-				"new-song", app.playlist->audioUrl, app.playlist->title,
+				"new-song", app.playlist->audioUrl, cleanStr(app.playlist->title),
 				app.playlist->artist, app.playlist->album, app.playlist->coverArt);
 			system(&cmd);
-			ts_next_song(&app);
+		} else if (!strcmp(type, "search-text")) {
+			char query[256];
+			memset(&query, 0, 256);
+			getString(&p, &query);
+			ts_search(&app, query);
 		}
 	}
-
-
-	/* struct parserState p;
-	char myBuf[] = {'h', 'e', 'l', 'l', 'o', 0, 'm', 'y', 0, 'n', 'a', 'm', 'e', 0};
-	p.buf = &myBuf;
-	p.nextPos = 0;
-
-	char buf[120];
-	memset(&buf, 0, 120);
-	getString(&p, buf);
-	puts(buf);
-	memset(&buf, 0, 120);
-	getString(&p, buf);
-	puts(buf);
-	memset(&buf, 0, 120);
-	getString(&p, buf);
-	puts(buf); */
 	return 0;
 }
