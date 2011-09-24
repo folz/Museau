@@ -20,7 +20,7 @@
 				<h1 id="title">{{ title }}</h1>
 
 				<ul>
-					<li><a href="#" class="current">Nav</a></li>
+					<li><a href="/logout" class="current">Logout</a></li>
 					<li><a href="#" class="current">Nav</a></li>
 					<li><a href="#" class="current">Nav</a></li>
 					<li><a href="#" class="current">Nav</a></li>
@@ -29,6 +29,15 @@
 			</nav>
 		</header>
 		<div id="main">
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+				<li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+					{{ message }}
+				</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
 			<div id="radio">
 				
   <div id="jquery_jplayer_1" class="jp-jplayer"></div>

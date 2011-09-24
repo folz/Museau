@@ -8,6 +8,11 @@ from django.template import RequestContext
 from webcli.models import *
 
 def index(req, login_form=LoginForm(), register_form=RegisterForm()):
+	if req.user.is_authenticated():
+		return render_to_response('home.html', {
+			'title': "Tuneshare",
+		}, context_instance=RequestContext(req))
+	
 	if req.method == 'POST':
 		logform = LoginForm(req.POST)
 		regform = RegisterForm(req.POST)
@@ -16,19 +21,20 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 			user = authenticate(username=logform.cleaned_data['username'], password=logform.cleaned_data['password'])
 			if user:
 				login(req, user)
+				return HttpResponseRedirect('/')
 			else:
 				messages.add_message(req, messages.ERROR, "Your login information is incorrect. Please try again.")
 		elif regform.is_valid():
-			if User.objects.filter(username=regform.cleaned_data['username']).exists():
+			if TuneUser.objects.filter(username=regform.cleaned_data['username']).exists():
 				messages.add_message(req, messages.ERROR, "This username is already in use.")
 			else:
-				user = User.objects.create(regform.cleaned_data['username'], password=regform.cleaned_data['password'])
+				user = TuneUser.objects.create(regform.cleaned_data['username'], password=regform.cleaned_data['password'])
 				login(req, user)
 				messages.add_message(req, messages.SUCCESS, "Welcome to Tuneshare!")
-	if req.user.is_authenticated():
-		return render_to_response('home.html', {
-			'title': "Tuneshare",
-		}, context_instance=RequestContext(req))
+				return HttpResponseRedirect('/')
+		else:
+			return HttpResponseRedirect('/')
+	
 	else:
 		return render_to_response('index.html', {
 			'title': "Welcome to Tuneshare",
@@ -39,5 +45,4 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 @login_required
 def user_logout(req):
 	logout(req)
-	messages.add_message(req, messages.SUCCESS, "Until next time, then.")
 	return HttpResponseRedirect('/')
