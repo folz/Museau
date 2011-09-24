@@ -32,20 +32,42 @@
 		this.upcomingUrl = ko.observable();
 		this.seekTime = ko.observable();
 		
-		this.searchText = ko.observable();
-		this.searchResults = ko.dependentObservable(function() {
-			return [];
+		this.searchText = ko.observable('');
+		this.searchResults = ko.observableArray([]);
+		this.timeout = function() {};
+		
+		this.performSearch = ko.dependentObservable(function () {
+			console.log('updated');
+			var searchText = this.searchText();
+			var results = this.searchResults;
+
+			if (this.timeout) clearTimeout(this.timeout);
+
+			this.timeout = setTimeout(function () {
+				$.getJSON('/ajax/search',
+					{ searchText: searchText },
+					function (data) {
+						updateVM(data);
+					}
+				);
+			}, 500);
 		}, this);
 	}
 	window.viewModel = new ViewModel();
 	
-	function updateVM() {
-		$.getJSON('/ajax/all/', function(data)
-		{
+	function updateVM(data) {
+		if (data) {
 			viewModel.songUrl(data['songUrl']);
 			viewModel.seekTime(data['seekTime']);
 			viewModel.coverArt(data['coverArt']);
-		});
+		} else {
+			$.getJSON('/ajax/all/', function(data)
+			{
+				viewModel.songUrl(data['songUrl']);
+				viewModel.seekTime(data['seekTime']);
+				viewModel.coverArt(data['coverArt']);
+			});
+		}
 	}
 	
 	$(document).ready(function(){
@@ -54,3 +76,15 @@
 		ko.applyBindings(viewModel);
 	});
 }(jQuery));
+
+function insert_message(msg) {
+	$.ajax({
+		url: "192.168.56.101:8001/msg",
+		data: {
+			
+		},
+		success: function(data) {
+			
+		},
+	});
+}

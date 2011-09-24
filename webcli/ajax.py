@@ -14,3 +14,9 @@ def do(req, action):
 	}))
 	x['Cache-Control'] = 'no-cache'
 	return x
+
+def search(req):
+	terms = req.GET.get('searchText')
+	print("terms", terms)
+	
+	return HttpResponse(json.dumps(terms));
