@@ -1,0 +1,111 @@
+html, body, #wrapper {
+	height: 100%;
+}
+
+body {
+	background: #f3f3f3;
+	color: #555555;
+	font: 62.5%/1.3 "Lucida Sans Unicode","Lucida Grande",sans-serif;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+a:link, a:visited {
+	color: #2486CA;
+	padding: .05em;
+}
+
+a:link.current, a:visited.current {
+	color: #E51279;
+}
+
+a:hover, a:visited:hover, a:active, a:visited:active {
+	background-color: #cbd7fd;
+	color: 0022EE;
+}
+
+a:hover.current, a:visited:hover.current, a:active.current, a:visited:active.current {
+	background-color: #feebf4;
+}
+
+.clearboth {
+	clear: both;
+	width: 0;
+	height: 0;
+}
+
+#wrapper {
+	margin: 0 auto;
+	background-color: #ffffff;
+	padding: 0 4em;
+}
+
+header {
+	font-size: 1.6em;
+	padding: 2em 0 0;
+	font-family: "Georgia", "Times New Roman", "Times", serif;
+}
+
+header nav ul {
+	display: inline;
+}
+
+header nav ul li {
+	display: inline;
+}
+
+#title {
+	display: inline;
+	font-size: 1.8em;
+	font-weight: bold;
+	padding-right: .5em;
+}
+
+header nav a {
+	margin: 0 .45em;
+}
+
+#title a {
+	color: #333333;
+	text-decoration: none;
+	margin: 0;
+}
+
+#main {
+	width: 960px;
+	font-size: 1.3em;
+	padding: 2em 0 0;
+	margin: 1em auto 0;
+	border-top: 1px dotted #bbbbbb;
+}
+
+#main p {
+	text-indent: 2em;
+	margin: 0 0 .75em;
+}
+
+
+#radio {
+	width: 100%;
+	float: left;
+	background-color: #c8c8c8;
+}
+
+#chat {
+	width: 100%;
+	height: 350px;
+	float: right;
+	background-color: #a8a8a8;
+}
+
+footer {
+	margin: 2em 0 0;
+	padding: 1em 0 0;
+	border-top: 3px solid #cccccc;
+}
