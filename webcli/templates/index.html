@@ -9,73 +9,30 @@
 	
 	<script type="text/javascript" src="static/head.min.js"></script>
 	
-	<link rel="stylesheet" type="text/css" media="screen" href="static/reset.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="static/styles.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="static/jplayer.blue.monday/jplayer.blue.monday.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/reset.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/jplayer.blue.monday/jplayer.blue.monday.css" />
 </head>
 <body>
 	<div id="wrapper">
 		<header>
 			<nav>
-				<h1 id="title">{{ title.capitalize }}</h1>
-
-				<ul>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-				</ul>
+				<h1 id="title">{{ title }}</h1>
 			</nav>
 		</header>
 		<div id="main">
-			<div id="radio">
-				
-  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-  <div id="jp_container_1" class="jp-audio">
-    <div class="jp-type-single">
-      <div class="jp-gui jp-interface">
-        <ul class="jp-controls">
-          <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-          <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-          <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-          <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-          <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-          <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
-        </ul>
-        <div class="jp-progress">
-          <div class="jp-seek-bar">
-            <div class="jp-play-bar"></div>
-          </div>
-        </div>
-        <div class="jp-volume-bar">
-          <div class="jp-volume-bar-value"></div>
-        </div>
-        <div class="jp-time-holder">
-          <div class="jp-current-time"></div>
-          <div class="jp-duration"></div>
-          <ul class="jp-toggles">
-            <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
-            <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="jp-title">
-        <ul>
-          <li>Bubble</li>
-        </ul>
-      </div>
-      <div class="jp-no-solution">
-        <span>Update Required</span>
-        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-      </div>
-    </div>
-  </div>
-				
-			</div> <!-- #radio -->
-			<div id="chat">
-				<iframe src="http://192.168.56.101:8001" width="100%" height="100%"></iframe>
-			</div> <!-- #chat -->
+			<form id="login" action="/" method="post">
+				<h1>Log in</h1>
+				{% csrf_token %}
+				{{ login_form.as_p }}
+				<button type="submit">Log in</button>
+			</form>
+			<form id="register" action="/" method="post">
+				<h1>Sign up</h1>
+				{% csrf_token %}
+				{{ register_form.as_p }}
+				<button type="submit">Sign up</button>
+			</form>
 			<p class="clearboth"></p>
 		</div> <!-- #main -->
 		<footer>

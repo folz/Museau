@@ -10,6 +10,8 @@ urlpatterns = patterns('',
 	# Examples:
 	url(r'^$', 'webcli.views.index', name='index'),
 	
+	url(r'^logout/$', 'webcli.views.user_logout', name='logout'),
+	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 )

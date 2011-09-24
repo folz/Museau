@@ -8,6 +8,11 @@ body {
 	font: 62.5%/1.3 "Lucida Sans Unicode","Lucida Grande",sans-serif;
 }
 
+h1 {
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
 strong {
 	font-weight: bold;
 }
@@ -40,6 +45,11 @@ a:hover.current, a:visited:hover.current, a:active.current, a:visited:active.cur
 	height: 0;
 }
 
+ul.errorlist {
+	border: 1px solid #990000;
+	padding: 1em;
+}
+
 #wrapper {
 	margin: 0 auto;
 	background-color: #ffffff;
@@ -63,8 +73,6 @@ header nav ul li {
 
 #title {
 	display: inline;
-	font-size: 1.8em;
-	font-weight: bold;
 	padding-right: .5em;
 }
 
@@ -91,6 +99,17 @@ header nav a {
 	margin: 0 0 .75em;
 }
 
+#main form p {
+	margin: 1em 0;
+}
+
+#login {
+	float: left;
+}
+
+#register {
+	float: right;
+}
 
 #radio {
 	width: 100%;
