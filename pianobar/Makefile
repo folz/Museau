@@ -88,7 +88,7 @@ endif
 # build pianobar
 ifeq (${DYNLINK},1)
 pianobar: ${PIANOBAR_OBJ} ${PIANOBAR_HDR} libpiano.so.0
-	${CC} -o $@ ${PIANOBAR_OBJ} ${LDFLAGS} -lao -lpthread -lm -L. -lpiano \
+	${CC} -o $@ ${PIANOBAR_OBJ} ${LDFLAGS} alist.o basic.o -lao -lpthread -lm -L. -lpiano \
 			${LIBFAAD_LDFLAGS} ${LIBMAD_LDFLAGS}
 else
 pianobar: ${PIANOBAR_OBJ} ${PIANOBAR_HDR} ${LIBPIANO_OBJ} ${LIBWAITRESS_OBJ} \
