@@ -47,8 +47,9 @@ a:hover.current, a:visited:hover.current, a:active.current, a:visited:active.cur
 }
 
 header {
+	width: 960px;
+	margin: 0 auto;
 	font-size: 1.6em;
-	padding: 2em 0 0;
 	font-family: "Georgia", "Times New Roman", "Times", serif;
 }
 
