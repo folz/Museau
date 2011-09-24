@@ -90,7 +90,6 @@ function createSession (nick) {
 
   var session = { 
     nick: nick, 
-    id: Math.floor(Math.random()*99999999999).toString(),
     timestamp: new Date(),
 
     poke: function () {
@@ -99,20 +98,20 @@ function createSession (nick) {
 
     destroy: function () {
       channel.appendMessage(session.nick, "part");
-      delete sessions[session.id];
+      delete sessions[session.nick];
     }
   };
 
-  sessions[session.id] = session;
+  sessions[session.nick] = session;
   return session;
 }
 
 // interval to kill off old sessions
 setInterval(function () {
   var now = new Date();
-  for (var id in sessions) {
-    if (!sessions.hasOwnProperty(id)) continue;
-    var session = sessions[id];
+  for (var nick in sessions) {
+    if (!sessions.hasOwnProperty(nick)) continue;
+    var session = sessions[nick];
 
     if (now - session.timestamp > SESSION_TIMEOUT) {
       session.destroy();
@@ -130,9 +129,9 @@ fu.get("/jquery-1.2.6.min.js", fu.staticHandler("jquery-1.2.6.min.js"));
 
 fu.get("/who", function (req, res) {
   var nicks = [];
-  for (var id in sessions) {
-    if (!sessions.hasOwnProperty(id)) continue;
-    var session = sessions[id];
+  for (var nick in sessions) {
+    if (!sessions.hasOwnProperty(nick)) continue;
+    var session = sessions[nick];
     nicks.push(session.nick);
   }
   res.simpleJSON(200, { nicks: nicks
@@ -155,7 +154,7 @@ fu.get("/join", function (req, res) {
   //sys.puts("connection: " + nick + "@" + res.connection.remoteAddress);
 
   channel.appendMessage(session.nick, "join");
-  res.simpleJSON(200, { id: session.id
+  res.simpleJSON(200, { nick: session.nick
                       , nick: session.nick
                       , rss: mem.rss
                       , starttime: starttime
@@ -163,10 +162,10 @@ fu.get("/join", function (req, res) {
 });
 
 fu.get("/part", function (req, res) {
-  var id = qs.parse(url.parse(req.url).query).id;
+  var nick = qs.parse(url.parse(req.url).query).nick;
   var session;
-  if (id && sessions[id]) {
-    session = sessions[id];
+  if (nick && sessions[nick]) {
+    session = sessions[nick];
     session.destroy();
   }
   res.simpleJSON(200, { rss: mem.rss });
@@ -177,10 +176,10 @@ fu.get("/recv", function (req, res) {
     res.simpleJSON(400, { error: "Must supply since parameter" });
     return;
   }
-  var id = qs.parse(url.parse(req.url).query).id;
+  var nick = qs.parse(url.parse(req.url).query).nick;
   var session;
-  if (id && sessions[id]) {
-    session = sessions[id];
+  if (nick && sessions[nick]) {
+    session = sessions[nick];
     session.poke();
   }
 
@@ -193,12 +192,12 @@ fu.get("/recv", function (req, res) {
 });
 
 fu.get("/send", function (req, res) {
-  var id = qs.parse(url.parse(req.url).query).id;
+  var nick = qs.parse(url.parse(req.url).query).nick;
   var text = qs.parse(url.parse(req.url).query).text;
 
-  var session = sessions[id];
+  var session = sessions[nick];
   if (!session || !text) {
-    res.simpleJSON(400, { error: "No such session id" });
+    res.simpleJSON(400, { error: "No such session nick" });
     return;
   }
 

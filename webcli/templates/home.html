@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/reset.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/jplayer.blue.monday/jplayer.blue.monday.css" />
+	<script type="text/javascript">window.CHAT_NICK = "{{ user.username }}"</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -73,7 +74,7 @@
 		<br />
 		<div>
 			<form action="/ajax/search/" method="GET">
-				<input type="text" placeholder="Search Tuneshare" data-bind="value: searchText" />
+				<input type="text" placeholder="Search Tuneshare" data-bind="value: searchText, valueUpdate: 'afterkeydown'" />
 				<input type="submit" value="Search" />
 			</form>
 		</div>
@@ -86,7 +87,7 @@
 				
 			</div> <!-- #radio -->
 			<div id="chat">
-				<iframe src="http://192.168.56.101:8001/?name={{ user.username }}" width="100%" height="100%"></iframe>
+				<iframe id="chat_iframe" src="http://192.168.56.101:8001/?name={{ user.username }}" width="100%" height="100%"></iframe>
 			</div> <!-- #chat -->
 			<p class="clearboth"></p>
 		</div> <!-- #main -->
