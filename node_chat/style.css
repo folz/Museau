@@ -81,10 +81,10 @@ table {
 }
 
 #entry {
-  width: 100%;
+  width: 97.5%;
   font-size: inherit;
-  padding: 1em;
-  margin: 0;
+  padding: .5em;
+  margin: .5em;
   border-width: 0;
   outline-width: 0;
   clear: both;
@@ -134,4 +134,5 @@ table {
 
 #usersLink {
   color: inherit;
+  padding-left: .5em;
 }
