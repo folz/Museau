@@ -460,16 +460,15 @@ static bool ts_next_song(BarApp_t* app) {
 	return false;
 }
 
-static bool ts_search(BarApp_t* app, const char* search) {
-	/* Search for any song/artist term, add the (only!) the first result to
-	 * the current station. */
+static char* ts_find_musicId(BarApp_t* app, const char* search) {
+	/* Search for any song/artist term, return the first musicId. */
 	PianoReturn_t pRet;
 	WaitressReturn_t wRet;
 	PianoRequestDataSearch_t reqData;
-	reqData.searchStr = strdup(search);
+	reqData.searchStr = search;
 	if (!BarUiPianoCall (app, PIANO_REQUEST_SEARCH, &reqData, &pRet,
 			&wRet)) {
-		puts("[DEBUG::ts_search] Request search failed outright.");
+		puts("[DEBUG::ts_find_musicId] Request search failed outright.");
 		return false;
 	}
 
@@ -477,24 +476,60 @@ static bool ts_search(BarApp_t* app, const char* search) {
 	PianoSearchResult_t searchResult;
 	memcpy (&searchResult, &reqData.searchResult, sizeof (searchResult));
 	if (searchResult.artists != NULL) {
-		musicId = searchResult.artists->musicId;
+		musicId = strdup(searchResult.artists->musicId);
 	} else if (searchResult.songs != NULL) {
-		musicId = searchResult.songs->musicId;
+		musicId = strdup(searchResult.songs->musicId);
 	} else {
-		puts("[DEBUG::ts_search] No songs or artists found.");
-		return false;
+		puts("[DEBUG::ts_find_musicId] No songs or artists found.");
 	}
+	PianoDestroySearchResult (&searchResult);
+	return musicId; /* Don't forget to call free() on this. */
+}
 
+static bool ts_update_station(BarApp_t* app, char* musicId) {
+	/* Adds the content referred to by musicId to the current station. */
 	PianoReturn_t pRetAdd;
 	WaitressReturn_t wRetAdd;
 	PianoRequestDataAddSeed_t reqAddData;
-	reqAddData.musicId = strdup(musicId);
+	reqAddData.musicId = musicId;
 	reqAddData.station = app->curStation;
 	bool ret = (bool) BarUiPianoCall (app, PIANO_REQUEST_ADD_SEED,
 		&reqAddData, &pRetAdd, &wRetAdd);
-	PianoDestroySearchResult (&searchResult);
-	free(reqData.searchStr);
-	free(reqAddData.musicId);
+	return ret;
+}
+
+static bool ts_search(BarApp_t* app, const char* search) {
+	/* Search for and update the station with the given terms. */
+	char* musicId = ts_find_musicId(app, search);
+	bool ret = false;
+	if (musicId) {
+		ret = ts_update_station(app, musicId);
+		free(musicId);
+	}
+	return ret;
+}
+
+static bool ts_rate_current_song(BarApp_t* app, bool love) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+	PianoRequestDataRateSong_t reqData;
+	reqData.song = app->playlist;
+	reqData.rating = love ? PIANO_RATE_LOVE : PIANO_RATE_BAN;
+	return BarUiPianoCall (app, PIANO_REQUEST_RATE_SONG, &reqData, &pRet, &wRet);
+}
+
+static bool ts_create_station(BarApp_t* app, const char* search) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+	PianoRequestDataCreateStation_t reqData;
+
+	reqData.id = ts_find_musicId(app, search);
+	bool ret = false;
+	if (reqData.id != NULL) {
+		reqData.type = "mi";
+		ret = BarUiPianoCall (app, PIANO_REQUEST_CREATE_STATION, &reqData, &pRet, &wRet);
+		free (reqData.id);
+	}
 	return ret;
 }
 
@@ -524,17 +559,24 @@ int main() {
 	printf("[DEBUG] Current station set? (%d)\n", (int) ret3);
 	assert(ret3);
 
-	memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+	while (1) {
+		memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+		ts_get_playlist(&app);
 
-	bool ret4 = ts_get_playlist(&app);
-	printf("[DEBUG] Current playlist set? (%d)\n", (int) ret4);
-	assert(ret4);
+		do {
+			bool ret5 = ts_search(&app, "Pink Floyd");
+			printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
+			printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
 
-	do {
-		bool ret5 = ts_search(&app, "Slayer");
-		printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
-		printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
-	} while (ts_next_song(&app));
+			bool ret6 = ts_rate_current_song(&app, true);
+			printf("[DEBUG] Song rated correctly? (%d)\n", (int) ret6);
+		} while (ts_next_song(&app));
+
+		sleep(1);
+	}
+
+	/* Works! Seriously!
+	 * assert(ts_create_station(&app, "Pink Floyd")); */
 
 	return 0;
 }
