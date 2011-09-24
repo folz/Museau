@@ -56,6 +56,7 @@ THE SOFTWARE.
 #include "ui_dispatch.h"
 #include "ui_readline.h"
 
+#include "alist.h"
 #include "dummy_pandora.h"
 
 /*	copy proxy settings to waitress handle
@@ -574,6 +575,9 @@ int main() {
 
 		sleep(1);
 	}
+
+	alist* rooms = AL_new();
+	AL_push_back(rooms, cvptr(&app));
 
 	/* Works! Seriously!
 	 * assert(ts_create_station(&app, "Pink Floyd")); */
