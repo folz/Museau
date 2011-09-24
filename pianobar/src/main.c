@@ -559,20 +559,21 @@ int main() {
 	printf("[DEBUG] Current station set? (%d)\n", (int) ret3);
 	assert(ret3);
 
-	memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+	while (1) {
+		memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+		ts_get_playlist(&app);
 
-	bool ret4 = ts_get_playlist(&app);
-	printf("[DEBUG] Current playlist set? (%d)\n", (int) ret4);
-	assert(ret4);
+		do {
+			bool ret5 = ts_search(&app, "Pink Floyd");
+			printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
+			printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
 
-	do {
-		bool ret5 = ts_search(&app, "Pink Floyd");
-		printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
-		printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
+			bool ret6 = ts_rate_current_song(&app, true);
+			printf("[DEBUG] Song rated correctly? (%d)\n", (int) ret6);
+		} while (ts_next_song(&app));
 
-		bool ret6 = ts_rate_current_song(&app, true);
-		printf("[DEBUG] Song rated correctly? (%d)\n", (int) ret6);
-	} while (ts_next_song(&app));
+		sleep(1);
+	}
 
 	/* Works! Seriously!
 	 * assert(ts_create_station(&app, "Pink Floyd")); */
