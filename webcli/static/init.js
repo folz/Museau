@@ -10,6 +10,7 @@ $(document).ready(function(){
 		supplied: "m4a",
 		solution: "flash, html",
 		errorAlerts: true,
+		preload: 'auto',
 	});
 
 	$("#jplayer_inspector").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
