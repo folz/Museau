@@ -17,14 +17,11 @@
 	<div id="wrapper">
 		<header>
 			<nav>
-				<h1 id="title">{{ title }}</h1>
+				<h1 id="title">{{ user.username }}'s {{ title }}</h1>
 
 				<ul>
+					<li><a href="#" class="current">Profile</a></li>
 					<li><a href="/logout" class="current">Logout</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
-					<li><a href="#" class="current">Nav</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -83,7 +80,7 @@
 				
 			</div> <!-- #radio -->
 			<div id="chat">
-				<iframe src="http://192.168.56.101:8001" width="100%" height="100%"></iframe>
+				<iframe src="http://192.168.56.101:8001/?name={{ user.username }}" width="100%" height="100%"></iframe>
 			</div> <!-- #chat -->
 			<p class="clearboth"></p>
 		</div> <!-- #main -->

@@ -24,16 +24,17 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 				return HttpResponseRedirect('/')
 			else:
 				messages.add_message(req, messages.ERROR, "Your login information is incorrect. Please try again.")
-		elif regform.is_valid():
-			if TuneUser.objects.filter(username=regform.cleaned_data['username']).exists():
+		if regform.is_valid():
+			if User.objects.filter(username=regform.cleaned_data['username']).exists():
 				messages.add_message(req, messages.ERROR, "This username is already in use.")
 			else:
-				user = TuneUser.objects.create(regform.cleaned_data['username'], password=regform.cleaned_data['password'])
+				user = User.objects.create_user(regform.cleaned_data['username'], email='', password=regform.cleaned_data['password'])
+				user.save()
+				user = authenticate()
 				login(req, user)
 				messages.add_message(req, messages.SUCCESS, "Welcome to Tuneshare!")
 				return HttpResponseRedirect('/')
-		else:
-			return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/')
 	
 	else:
 		return render_to_response('index.html', {
