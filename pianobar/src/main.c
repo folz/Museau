@@ -56,7 +56,8 @@ THE SOFTWARE.
 #include "ui_dispatch.h"
 #include "ui_readline.h"
 
-#include "alist.h"
+#include <mqueue.h>
+
 #include "dummy_pandora.h"
 
 /*	copy proxy settings to waitress handle
@@ -456,7 +457,7 @@ static bool ts_next_song(BarApp_t* app) {
 		printf("[DEBUG] Cover Art: %s\n", app->playlist->coverArt);
 
 		app->playlist = app->playlist->next;
-		return app->playlist ? true : false;
+		return app->playlist ? true : ts_get_playlist(app);
 	}
 	return false;
 }
@@ -560,24 +561,20 @@ int main2() {
 	printf("[DEBUG] Current station set? (%d)\n", (int) ret3);
 	assert(ret3);
 
-	while (1) {
-		memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
-		ts_get_playlist(&app);
+	memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+	ts_get_playlist(&app);
 
-		do {
-			bool ret5 = ts_search(&app, "Pink Floyd");
-			printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
-			printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
+	do {
+		bool ret5 = ts_search(&app, "Pink Floyd");
+		printf("[DEBUG] Search successful? (%d)\n", (int) ret5);
+		printf("[DEBUG] New audioUrl: %s\n\n\n", app.playlist->audioUrl);
 
-			bool ret6 = ts_rate_current_song(&app, true);
-			printf("[DEBUG] Song rated correctly? (%d)\n", (int) ret6);
-		} while (ts_next_song(&app));
+		bool ret6 = ts_rate_current_song(&app, true);
+		printf("[DEBUG] Song rated correctly? (%d)\n", (int) ret6);
+	} while (ts_next_song(&app));
 
-		sleep(1);
-	}
-
-	alist* rooms = AL_new();
-	AL_push_back(rooms, cvptr(&app));
+	//alist* rooms = AL_new();
+	//AL_push_back(rooms, cvptr(&app));
 
 	/* Works! Seriously!
 	 * assert(ts_create_station(&app, "Pink Floyd")); */
@@ -597,6 +594,43 @@ void getString(struct parserState* p, char* dest) {
 	p->nextPos = p->nextPos + len + 1;
 }
 
+#define BUF_SIZE 1024
+int mq = -1;
+const char name[] = "/mqz";
+
+int mq_openR()
+{
+	//cout << "In openR\n";
+	mq = mq_open(name, O_RDWR);
+	if(mq == -1)
+	{
+        perror("Mq_open failed");
+        exit(EXIT_FAILURE);
+	}
+	return mq;
+}
+
+void mq_take(char * buf)
+{
+	mq = mq_openR();
+	if(mq == -1)
+	{
+		//cout << "MQ is not initialized\n";
+	}
+	else
+	{
+		int numRecved = mq_receive(mq, buf, BUF_SIZE, NULL);
+		// print_buf(buf, BUF_SIZE);
+		//cout << size << '\n';
+		if(numRecved == -1)
+		{
+			perror("Mq_receive failed!");
+		}else{
+			//cout << buf << '\n';
+		}
+	}
+}
+
 int main() {
 	/* while (1) {
 		Read from the incoming job queue.
@@ -609,6 +643,57 @@ int main() {
 			6. get-new-song(roomId) => new-song-ack, roomId, audioUrl, title, artist, album, coverArt
 		... and write the result into the completed task queue.
 	*/
+
+	static BarApp_t app;
+	memset (&app, 0, sizeof (app));
+
+	ao_initialize ();
+	PianoInit (&app.ph);
+
+	WaitressInit (&app.waith);
+	app.waith.url.host = strdup (PIANO_RPC_HOST);
+	app.waith.url.port = strdup (PIANO_RPC_PORT);
+
+	BarSettingsInit (&app.settings);
+	BarSettingsRead (&app.settings);
+
+	bool ret = ts_login(&app, PANDORA_USER, PANDORA_PASSWORD);
+	printf("[DEBUG] Login happened? (%d)\n", (int) ret);
+	assert(ret);
+
+	bool ret2 = ts_get_stations (&app);
+	printf("[DEBUG] Stations acquired? (%d)\n", (int) ret2);
+	assert(ret2);
+
+	bool ret3 = ts_set_current_station(&app); /* NOP */
+	printf("[DEBUG] Current station set? (%d)\n", (int) ret3);
+	assert(ret3);
+
+	memset (&app.player, 0, sizeof (app.player)); /* Request new playlist? */
+	ts_get_playlist(&app);
+
+	while (1) {
+		static char msg[1024];
+		memset(&msg, 0, 1024);
+		mq_take(&msg);
+		struct parserState p;
+		p.buf = &msg;
+		p.nextPos = 0;
+
+		char type[256];
+		memset(&type, 0, 256);
+		getString(&p, &type);
+		if (!strcmp(type, "new-song")) {
+			static char cmd[1024];
+			memset(&cmd, 0, 1024);
+			snprintf(&cmd, 1024, "./wserv_upload 1 '%s' '%s' '%s' '%s' '%s' '%s'",
+				"new-song", app.playlist->audioUrl, app.playlist->title,
+				app.playlist->artist, app.playlist->album, app.playlist->coverArt);
+			system(&cmd);
+			ts_next_song(&app);
+		}
+	}
+
 
 	/* struct parserState p;
 	char myBuf[] = {'h', 'e', 'l', 'l', 'o', 0, 'm', 'y', 0, 'n', 'a', 'm', 'e', 0};
@@ -625,11 +710,5 @@ int main() {
 	memset(&buf, 0, 120);
 	getString(&p, buf);
 	puts(buf); */
-
-	char cmd[1024];
-	memset(&cmd, 0, 1024);
-	snprintf(&cmd, 1024, "./wserv_download 1 %s %s %s %s %s %s",
-		"new-song", "url", "title", "artist", "album", "coverArt");
-	system(&cmd);
 	return 0;
 }
