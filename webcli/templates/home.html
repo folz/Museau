@@ -47,7 +47,7 @@
 				<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
 				<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
 				<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>				
 			</ul>
 			<div class="jp-progress">
 				<div class="jp-play-bar"></div>
@@ -69,6 +69,17 @@
 			<span>Update Required</span>
 			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
 		</div>
+		<br />
+		<div>
+			<form action="/search/" method="GET">
+				<input type="text" data-bind="value: searchText" />
+				<input type="submit" value="Search" />
+			</form>
+		</div>
+		<ul data-bind="foreach: searchResults, template: searchResultTemplate"></ul>
+		<script type="text/x-jquery-tmpl" id="searchResultTemplate">
+			<li></li>
+		</script>
 	</div>
 </div>
 				
@@ -84,6 +95,7 @@
 	</div> <!-- #wrapper -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/jquery/jquery-tmpl/master/jquery.tmpl.min.js"></script>
 	<script type="text/javascript" src="/static/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="/static/add-on/jquery.jplayer.inspector.js"></script>
 	<script type="text/javascript" src="/static/init.js"></script>

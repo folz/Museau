@@ -30,6 +30,11 @@
 		this.songUrl = ko.observable();
 		this.upcomingUrl = ko.observable();
 		this.seekTime = ko.observable();
+		
+		this.searchText = ko.observable();
+		this.searchResults = ko.dependentObservable(function() {
+			
+		}, this);
 	}
 	window.viewModel = new ViewModel();
 	

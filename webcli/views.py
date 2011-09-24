@@ -48,3 +48,8 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 def user_logout(req):
 	logout(req)
 	return HttpResponseRedirect('/')
+
+def search(req):
+	terms = req.GET['query']
+	
+	return HttpResponse(terms)
