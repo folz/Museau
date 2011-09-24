@@ -104,11 +104,11 @@ header nav a {
 }
 
 #login {
-	float: left;
+	float: right;
 }
 
 #register {
-	float: right;
+	float: left;
 }
 
 #radio {
