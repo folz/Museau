@@ -8,9 +8,8 @@ from webcli.models import *
 
 def do(req, action):
 	x = HttpResponse(json.dumps({
-		'coverArt': 'http://cont-sjl-1.pandora.com/images/public/amz/2/2/5/2/074646772522_130W_130H.jpg',
-		'songUrl': 'http://audio-sv5-t1-2.pandora.com/access/?version=4&lid=37334406&token=SWs3mgt8A3%2FW3hG7Hks9HqDAqmAxiqmS5zNpFoKsSFKM2wXnHR9bsHaedfoNJGSC8JKVS3UzyGVqvCXAlME7qNmILu1sDWP0fjN%2Bmc63kDmVgTpWCqX6CBIOLDS4C1975gPRS7FmEsx3nZRJ%2FtfuPNh1qkiiMQzxss9R93rkR0ZiGeDpBL4NRqAgK67slWLyYlSyxBruvXVtMHgQC7wLhz9X3T56QjTlgJh3tbJ7vfJmuTMp0Hm3iRHTpAmIFWJLqO9XYvArdn5aWOmJFKIPTscMUfhdFfOb4ctlNgFYoNMFWhxCnsKbcHRvKD7HD42UNMdCsBVyDS5tO8HLhl%2Fzbg%3D%3D',
-		'seekTime': 0
+		'coverArt': 'http://cont-sjl-2.pandora.com/images/public/amz/8/2/8/3/075678263828_130W_130H.jpg',
+		'songUrl': 'http://audio-sjl-t1-1.pandora.com/access/?version=4&lid=37334406&token=CEiEscd51CJfnWtEfJh2Gcp1TqdLZag33lSDYPtglx8t32M%2F2E5IxD5PhjcGq2YIIg6OGHLBun0pbR3q8dHbBRrPGtfiidmwkCJoCyE8HtLErog%2BUxyNPO9d8Flx3wXGESdnq%2FzMBFzUa3hpLKTVQmG7aREX%2B%2FIvWOYppc6whFmKLiEFh0ttbWVBDf0Zd3ORWfrMf4rLGYlg0IHzUR4G%2BdB%2Ba1aC9QPX8IDyJ%2BGmAZEBE8ulvi%2BISo%2B2TcHTwCPTfS8Fgx5YJSueuOF8JHFrfMs0CA6Pop1OCtkDDfeh80RSpw%2FnVKOMPR49eNIY7AElxOPKWtL4TadU3a0ax29tlwQcHIqhRHrb',
 	}))
 	x['Cache-Control'] = 'no-cache'
 	return x

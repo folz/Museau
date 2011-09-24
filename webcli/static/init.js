@@ -15,7 +15,7 @@
 					updateVM();
 					$(this).jPlayer("setMedia", {
 						"m4a": viewModel.songUrl(),
-					});
+					}).jPlayer("play");
 				},
 				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
 				supplied: "m4a",
@@ -30,8 +30,6 @@
 	{
 		this.coverArt = ko.observable();
 		this.songUrl = ko.observable();
-		this.upcomingUrl = ko.observable();
-		this.seekTime = ko.observable();
 		
 		this.searchText = ko.observable('');
 		this.searchResults = ko.observableArray([]);
@@ -59,13 +57,11 @@
 	function updateVM(data) {
 		if (data) {
 			viewModel.songUrl(data['songUrl']);
-			viewModel.seekTime(data['seekTime']);
 			viewModel.coverArt(data['coverArt']);
 		} else {
 			$.getJSON('/ajax/all/', function(data)
 			{
 				viewModel.songUrl(data['songUrl']);
-				viewModel.seekTime(data['seekTime']);
 				viewModel.coverArt(data['coverArt']);
 			});
 		}

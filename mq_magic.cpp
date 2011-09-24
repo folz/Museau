@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char name[] = "/mqz";
+const char name[] = "/mqq";
 int mq = -1;
 
 
