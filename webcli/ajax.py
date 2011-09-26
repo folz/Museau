@@ -31,7 +31,7 @@ def do(req, action):
 def search(req):
 	terms = req.GET.get('searchText')
 	
-	os.system('./wserv_download 1 search-text {0}'.format(terms))
+	os.system('./wserv_download 1 search-text "{0}"'.format(terms))
 	
 	return HttpResponse(json.dumps(terms));
 

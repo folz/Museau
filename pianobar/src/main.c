@@ -697,7 +697,7 @@ int main() {
 	ts_get_playlist(&app);
 
 	static char cmd[1024];
-	for (int k=0; k < 4; ++k) {
+	for (int k=0; k < 10; ++k) {
 		memset(&cmd, 0, 1024);
 		if (hasCrap(app.playlist->title) || hasCrap(app.playlist->artist) || hasCrap(app.playlist->album)) {
 			k--;

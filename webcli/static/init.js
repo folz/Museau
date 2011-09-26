@@ -33,7 +33,7 @@
 		this.title = ko.observable();
 		this.artist = ko.observable();
 		this.album = ko.observable();
-		
+
 		this.searchText = ko.observable('');
 		this.searchResults = ko.observableArray([]);
 		this.timeout = function() {};
@@ -57,23 +57,15 @@
 	}
 	window.viewModel = new ViewModel();
 	
-	function updateVM(data) {
-		if (data) {
+	function updateVM() {
+		$.getJSON('/ajax/all/', function(data)
+		{
 			viewModel.songUrl(data['songUrl']);
 			viewModel.coverArt(data['coverArt']);
 			viewModel.title(data['title']);
 			viewModel.artist(data['artist']);
 			viewModel.album(data['album']);
-		} else {
-			$.getJSON('/ajax/all/', function(data)
-			{
-				viewModel.songUrl(data['songUrl']);
-				viewModel.coverArt(data['coverArt']);
-				viewModel.title(data['title']);
-				viewModel.artist(data['artist']);
-				viewModel.album(data['album']);
-			});
-		}
+		});
 	}
 	
 	$(document).ready(function(){
