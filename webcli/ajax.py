@@ -9,6 +9,14 @@ pandora = __import__('python-pandora').pandora
 from django.conf import settings
 
 def do(req, action):
+	actions = {
+		'next_song': get_next_song,
+		'search': search,
+	}
+	
+	return actions[action](req)
+
+def get_next_song(req):
 	api = pandora.Pandora()
 	
 	if api.authenticate(settings.PANDORA_USERNAME, settings.PANDORA_PASSWORD):

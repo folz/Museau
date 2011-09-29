@@ -12,8 +12,6 @@ urlpatterns = patterns('',
 	
 	url(r'^logout/$', 'webcli.views.user_logout', name='logout'),
 	
-	url(r'^ajax/search/$', 'webcli.ajax.search'),
-	
 	url(r'^ajax/(?P<action>.*)/$', 'webcli.ajax.do'),
 	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
