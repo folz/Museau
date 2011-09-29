@@ -4,21 +4,21 @@
 {
 	ko.bindingHandlers.jPlayer = {
 		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			console.log(viewModel.songUrl())
+			console.log("jPlayer updated! Now playing "+viewModel.title()+" at URL "+viewModel.songUrl());
 			$(element).jPlayer({
 				ready: function (event) {
 					$(this).jPlayer("setMedia", {
-						"m4a": viewModel.songUrl(),
+						'mp3': viewModel.songUrl(),
 					}).jPlayer("play");
 				},
 				ended: function (event) {
 					updateVM();
 					$(this).jPlayer("setMedia", {
-						"m4a": viewModel.songUrl(),
+						'mp3': viewModel.songUrl(),
 					}).jPlayer("play");
 				},
 				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
-				supplied: "m4a",
+				supplied: "mp3",
 				errorAlerts: true,
 				preload: 'auto',
 				wmode: 'window',
@@ -34,12 +34,11 @@
 		this.artist = ko.observable();
 		this.album = ko.observable();
 
-		this.searchText = ko.observable('');
+		/*this.searchText = ko.observable('');
 		this.searchResults = ko.observableArray([]);
 		this.timeout = function() {};
 		
 		this.performSearch = ko.dependentObservable(function () {
-			console.log('updated');
 			var searchText = this.searchText();
 			var results = this.searchResults;
 
@@ -53,18 +52,18 @@
 					}
 				);
 			}, 500);
-		}, this);
+		}, this);*/
 	}
 	window.viewModel = new ViewModel();
 	
 	function updateVM() {
 		$.getJSON('/ajax/all/', function(data)
 		{
-			viewModel.songUrl(data['songUrl']);
-			viewModel.coverArt(data['coverArt']);
-			viewModel.title(data['title']);
-			viewModel.artist(data['artist']);
-			viewModel.album(data['album']);
+			viewModel.title(data['songTitle']);
+			viewModel.songUrl(data['audioURL']);
+			viewModel.coverArt(data['artistArtUrl']);
+			viewModel.artist(data['artistSummary']);
+			viewModel.album(data['albumTitle']);
 		});
 	}
 	
