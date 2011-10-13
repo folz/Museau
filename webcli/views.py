@@ -11,7 +11,7 @@ from webcli.forms import *
 def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 	if req.user.is_authenticated():
 		return render_to_response('home.html', {
-			'title': "Tuneshare",
+			'title': SITE_NAME,
 		}, context_instance=RequestContext(req))
 	
 	if req.method == 'POST':
@@ -30,12 +30,12 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 				user.save()
 				user = authenticate(regform.cleaned_data['username'], password=regform.cleaned_data['password'])
 				login(req, user)
-				messages.add_message(req, messages.SUCCESS, "Welcome to Tuneshare!")
+				messages.add_message(req, messages.SUCCESS, "Welcome to {0}!".format(SITE_NAME))
 				pass
 		return HttpResponseRedirect('/')
 	else:
 		return render_to_response('index.html', {
-			'title': "Welcome to Tuneshare",
+			'title': "Welcome to {0}".format(SITE_NAME),
 			'login_form': login_form,
 			'register_form': register_form,
 		}, context_instance=RequestContext(req))
