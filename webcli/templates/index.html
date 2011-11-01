@@ -27,13 +27,13 @@
 				{% endfor %}
 			</ul>
 			{% endif %}
-			<form id="login" action="/" method="post">
+			<form id="login" action="/login" method="post">
 				<h1>Log in</h1>
 				{% csrf_token %}
 				{{ login_form.as_p }}
 				<button type="submit">Log in</button>
 			</form>
-			<form id="register" action="/" method="post">
+			<form id="register" action="/register" method="post">
 				<h1>Sign up</h1>
 				{% csrf_token %}
 				{{ register_form.as_p }}

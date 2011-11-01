@@ -8,9 +8,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	# Examples:
-	url(r'^$', 'webcli.views.index', name='index'),
+	url(r'^$', 'usermanager.views.index', name='index'),
+	url(r'^$', 'usermanager.views.login', name='login'),
+	url(r'^$', 'usermanager.views.register', name='register'),
 	
-	url(r'^logout/$', 'webcli.views.user_logout', name='logout'),
+	url(r'^logout/$', 'usermanager.views.user_logout', name='logout'),
 	
 	url(r'^ajax/(?P<action>.*)/$', 'webcli.ajax.do'),
 	
