@@ -1,0 +1,3 @@
+[submodule "python-pandora"]
+	path = python-pandora
+	url = git@github.com:kufo/python-pandora.git
