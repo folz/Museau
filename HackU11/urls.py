@@ -14,7 +14,7 @@ urlpatterns = patterns('',
 	url(r'^logout$', 'usermanager.views.logout', name='logout'),
 	
 	# Ajax requests
-	url(r'^ajax/(?P<action>.*)$', 'webcli.ajax.do'),
+	url(r'^ajax/(?P<action>.*)\.(?P<filetype>.*)$', 'webcli.ajax.do'),
 	
 	# Django admin
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

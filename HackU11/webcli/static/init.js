@@ -59,7 +59,7 @@
 	window.viewModel = new ViewModel();
 	
 	function updateVM() {
-		$.getJSON('/ajax/next_song/', function(data)
+		$.getJSON('/ajax/next_song.json', function(data)
 		{
 			viewModel.songUrl(data['audioURL']);
 			viewModel.coverArt(data['artistArtUrl']);
