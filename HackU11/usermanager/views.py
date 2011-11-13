@@ -13,12 +13,13 @@ def index(req, login_form=LoginForm()):
 	if req.user.is_authenticated():
 		return render_to_response('home.html', {
 			'title': SITE_NAME,
+			'quote': quote(),
 		}, context_instance=RequestContext(req))
 	else:
 		return render_to_response('index.html', {
 			'title': "Welcome to {0}".format(SITE_NAME),
 			'login_form': login_form,
-			'quote': quote()
+			'quote': quote(),
 		}, context_instance=RequestContext(req))
 
 def login(req):
