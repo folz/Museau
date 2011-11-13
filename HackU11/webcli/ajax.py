@@ -16,9 +16,9 @@ def do(req, action, filetype):
 		'search': search,
 	}
 	
-	return actions[action](req)
+	return actions[action](req, filetype)
 
-def get_next_song(req):
+def get_next_song(req, filetype):
 	api = pandora.Pandora()
 	username = req.user.username
 	password = req.user.get_profile().pandora_password
@@ -42,7 +42,7 @@ def get_next_song(req):
 			'error': 'authentication failed'
 		}))
 
-def search(req):
+def search(req, filetype):
 	terms = req.GET.get('searchText')
 	
 	return HttpResponse(json.dumps(terms));

@@ -35,7 +35,6 @@ def login(req):
 			
 			if user:
 				login_user(req, user)
-				messages.add_message(req, messages.SUCCESS, "Welcome to {0}!".format(SITE_NAME))
 		else:
 			''' We had a failure at some point. Don't tell the user what it was, for Security Reasons. '''
 			messages.add_message(req, messages.ERROR, "The username and password combination you entered was incorrect.")
