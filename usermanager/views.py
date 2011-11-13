@@ -41,6 +41,9 @@ def index(req, login_form=LoginForm(), register_form=RegisterForm()):
 			'register_form': register_form,
 		}, context_instance=RequestContext(req))
 
+def login(req):
+	pass
+
 @login_required
 def user_logout(req):
 	logout(req)

@@ -39,12 +39,6 @@ a:hover.current, a:visited:hover.current, a:active.current, a:visited:active.cur
 	background-color: #feebf4;
 }
 
-.clearboth {
-	clear: both;
-	width: 0;
-	height: 0;
-}
-
 ul.errorlist {
 	border: 1px solid #990000;
 	padding: 1em;
@@ -110,6 +104,12 @@ header nav a {
 
 #register {
 	float: left;
+}
+
+form p label {
+	width: 8em;
+	display: inline-block;
+	text-align: right;
 }
 
 #radio {

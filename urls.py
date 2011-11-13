@@ -9,12 +9,12 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	# Examples:
 	url(r'^$', 'usermanager.views.index', name='index'),
-	url(r'^$', 'usermanager.views.login', name='login'),
-	url(r'^$', 'usermanager.views.register', name='register'),
+	url(r'^login$', 'usermanager.views.login', name='login'),
+	url(r'^register$', 'usermanager.views.register', name='register'),
 	
-	url(r'^logout/$', 'usermanager.views.user_logout', name='logout'),
+	url(r'^logout$', 'usermanager.views.user_logout', name='logout'),
 	
-	url(r'^ajax/(?P<action>.*)/$', 'webcli.ajax.do'),
+	url(r'^ajax/(?P<action>.*)$', 'webcli.ajax.do'),
 	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
