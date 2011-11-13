@@ -3,3 +3,7 @@
 *.git
 settings.py
 dummy_*
+bin
+lib
+lib64
+include
