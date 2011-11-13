@@ -4,6 +4,8 @@
 settings.py
 dummy_*
 bin
+build
 lib
 lib64
 include
+.Python
