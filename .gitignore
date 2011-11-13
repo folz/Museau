@@ -1,7 +1,6 @@
 *.db
 *.pyc
 *.git
-settings.py
 dummy_*
 bin
 build
