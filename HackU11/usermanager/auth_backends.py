@@ -29,6 +29,11 @@ class PandoraBackend(object):
 				user.set_unusable_password() # because we use Pandora for authentication
 				user.save()
 			
+			user_profile = user.get_profile()
+			user_profile.pandora_password = password
+			user_profile.save()
+			
+			
 			return user
 		else:
 			return None

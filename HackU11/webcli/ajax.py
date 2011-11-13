@@ -9,7 +9,8 @@ from python_pandora import pandora
 
 from django.conf import settings
 
-def do(req, action):
+@login_required
+def do(req, action, filetype):
 	actions = {
 		'next_song': get_next_song,
 		'search': search,
@@ -19,8 +20,10 @@ def do(req, action):
 
 def get_next_song(req):
 	api = pandora.Pandora()
+	username = req.user.username
+	password = req.user.get_profile().pandora_password
 	
-	if api.authenticate(settings.PANDORA_USERNAME, settings.PANDORA_PASSWORD):
+	if api.authenticate(username, password):
 		# output stations (without QuickMix)
 		for station in api.getStationList():
 			if station['isQuickMix']: 
