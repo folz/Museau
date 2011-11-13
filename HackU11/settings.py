@@ -3,7 +3,7 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-SITE_NAME = "HackJam"
+SITE_NAME = "Museau"
 
 CURRENT_DIRECTORY = os.getcwdu()
 THEME_DIRECTORY = os.path.join(CURRENT_DIRECTORY, SITE_NAME, "templates")
@@ -108,7 +108,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'HackU11.urls'
+ROOT_URLCONF = 'Museau.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

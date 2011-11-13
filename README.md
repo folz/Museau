@@ -7,7 +7,7 @@
 
 ## Clone the git repository
 
-`git clone git@github.com:folz/HackU11.git HackU11 && cd HackU11`
+`git clone git@github.com:folz/Museau.git Museau && cd Museau`
 
 ## Set up Virtualenv
 
@@ -54,7 +54,7 @@ Install dependencies with pip:
 
 Now the Django app should be runnable. Test to make sure the application runs:
 
-`$ python HackU11/manage.py runserver`
+`$ python Museau/manage.py runserver`
 
 > Validating models...
 > 
@@ -62,7 +62,7 @@ Now the Django app should be runnable. Test to make sure the application runs:
 > 
 > 0 errors found
 > 
-> Django version 1.3, using settings 'HackU11.settings'
+> Django version 1.3, using settings 'Museau.settings'
 > 
 > Development server is running at http://127.0.0.1:8000/
 > 
