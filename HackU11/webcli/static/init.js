@@ -1,13 +1,11 @@
-"use strict";
-
-(function( $, undefined )
+;(function( $, undefined )
 {
 	ko.bindingHandlers.jPlayer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 			$(element).jPlayer({
 				ready: function (event) {
 					$(this).jPlayer("setMedia", {
-						mp3: viewModel.songUrl(),
+						mp3: viewModel.json().audioURL,
 					}).jPlayer("play");
 				},
 				ended: function (event) {
@@ -19,61 +17,70 @@
 				wmode: 'window',
 			});
 		},
-			
+		
 		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			console.log("jPlayer updated! Now playing "+viewModel.title()+" at URL "+viewModel.songUrl());
+			console.log("jPlayer updated! Now playing "
+						+ viewModel.json().songTitle
+						+ " by "
+						+ viewModel.json().artistSummary
+						+ " at URL "
+						+ viewModel.json().audioURL);
 			$(element).jPlayer("clearMedia").jPlayer("setMedia", {
-				mp3: viewModel.songUrl()
+				mp3: viewModel.json().audioURL
 			}).jPlayer("play");
 		}
 	};
 	
 	function ViewModel()
 	{
-		this.coverArt = ko.observable();
-		this.songUrl = ko.observable();
-		this.title = ko.observable();
-		this.artist = ko.observable();
-		this.album = ko.observable();
-
-		/*this.searchText = ko.observable('');
-		this.searchResults = ko.observableArray([]);
-		this.timeout = function() {};
+		this.json = ko.observable({});
 		
-		this.performSearch = ko.dependentObservable(function () {
-			var searchText = this.searchText();
-			var results = this.searchResults;
-
-			if (this.timeout) clearTimeout(this.timeout);
-
-			this.timeout = setTimeout(function () {
-				$.getJSON('/ajax/search',
-					{ searchText: searchText },
-					function (data) {
-						updateVM(data);
-					}
-				);
-			}, 500);
-		}, this);*/
+		this.history = ko.observableArray([]);
+		
+		this.addHistory = function(json)
+		{
+			this.history.push(json);
+		}
+		
+		/***
+		 *  accessors for the view
+		 ***/
+		 
+		this.songUrl = ko.dependentObservable(function(key)
+		{
+			return this.json()['audioURL'];
+		}, this);
+		this.albumArt = ko.dependentObservable(function(key)
+		{
+			return this.json()['artistArtUrl'];
+		}, this);
+		this.title = ko.dependentObservable(function(key)
+		{
+			return this.json()['songTitle'];
+		}, this);
+		this.artist = ko.dependentObservable(function(key)
+		{
+			return this.json()['artistSummary'];
+		}, this);
+		this.album = ko.dependentObservable(function(key)
+		{
+			return this.json()['albumTitle'];
+		}, this);
 	}
 	window.viewModel = new ViewModel();
 	
 	function updateVM() {
 		$.getJSON('/ajax/next_song.json', function(data)
 		{
-			viewModel.songUrl(data['audioURL']);
-			viewModel.coverArt(data['artistArtUrl']);
-			viewModel.title(data['songTitle']);
-			viewModel.artist(data['artistSummary']);
-			viewModel.album(data['albumTitle']);
+			viewModel.json(data);
+			viewModel.addHistory(viewModel.json());
+			console.log(viewModel.history());
 		});
 	}
 	
-	$(document).ready(function(){
-
-		
+	$(document).ready(function()
+	{
 		updateVM();
-		
 		ko.applyBindings(viewModel);
 	});
 }(jQuery));

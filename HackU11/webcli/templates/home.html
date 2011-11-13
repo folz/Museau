@@ -36,11 +36,11 @@
 			</ul>
 			{% endif %}
 			<div id="radio">
-				<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: songUrl"></div>
+				<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
 				
 				<div id="jp_container_1" class="jp-audio">
 					<div class="jp-type-single">
-						<img data-bind="attr: { src: coverArt() } " />
+						<img data-bind="attr: { src: albumArt } " />
 						<div class="jp-gui jp-interface">
 							<ul class="jp-controls">
 								<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
@@ -64,14 +64,20 @@
 						</div> <!-- .jp-gui.jp-interface -->
 						<div class="jp-title">
 							<ul>
-								<li>Now playing <span data-bind="text: title"></span> by <span data-bind="text: artist"></span> on <span data-bind="text: album"></span></li>
+								<li>Now playing
+									<span data-bind="text: title"></span>
+									by
+									<span data-bind="text: artist"></span>
+									on
+									<span data-bind="text: album"></span>
+								</li>
 							</ul>
 						</div> <!-- .jp-title -->
 						<div class="jp-no-solution">
 							<span>Update Required</span>
 							To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
 						</div> <!-- .jp-no-solution -->
-						<!--<div>
+					<!--<div>
 							<form action="/ajax/search/" method="GET">
 								<input type="text" placeholder="Search {{ title }}" data-bind="value: searchText, valueUpdate: 'afterkeydown'" />
 								<input type="submit" value="Search" />
@@ -84,14 +90,21 @@
 					</div> <!-- .jp-type-single -->
 				</div> <!-- #jp-container-1.jp-audio -->
 			</div> <!-- #radio -->
+			<div id="history">
+				<ul data-bind='template: { name: "historyItemTemplate", foreach: history }'></ul>
+			</div>
+			<script type="text/html" id="historyItemTemplate">
+				<li><span data-bind="text: songTitle"></span> by <span data-bind="text: artistSummary"></span></li>
+			</script>
 		</div> <!-- #main -->
 		<footer>
 			<p>{{ quote }}</p>
+			<p data-bind="text: json"></p>
 		</footer>
 	</div> <!-- #wrapper -->
 	<script type="text/javascript">
 		head.js("http://code.jquery.com/jquery-1.6.4.min.js",
-				"https://raw.github.com/jquery/jquery-tmpl/master/jquery.tmpl.min.js",
+				"http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js",
 				"http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js",
 				"/static/jquery.jplayer.min.js",
 				"/static/add-on/jquery.jplayer.inspector.js",
