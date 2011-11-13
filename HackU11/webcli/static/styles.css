@@ -99,11 +99,8 @@ header nav a {
 }
 
 #login {
-	float: right;
-}
-
-#register {
-	float: left;
+	width: 50%;
+	margin: 0 auto;
 }
 
 form p label {

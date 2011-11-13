@@ -5,7 +5,8 @@ from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 
 from webcli.models import *
-pandora = __import__('python-pandora').pandora
+from python_pandora import pandora
+
 from django.conf import settings
 
 def do(req, action):

@@ -7,6 +7,8 @@
 	
 	<link rel="icon" type="image/png" href="favicon.png" />
 	
+	<script type="text/javascript" src="static/head.min.js"></script>
+	
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/reset.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css" />
 </head>
@@ -28,16 +30,10 @@
 			</ul>
 			{% endif %}
 			<form id="login" action="/login" method="post">
-				<h1>Log in</h1>
+				<h1>Log in with your Pandora account</h1>
 				{% csrf_token %}
 				{{ login_form.as_p }}
 				<button type="submit">Log in</button>
-			</form>
-			<form id="register" action="/register" method="post">
-				<h1>Sign up</h1>
-				{% csrf_token %}
-				{{ register_form.as_p }}
-				<button type="submit">Sign up</button>
 			</form>
 		</div> <!-- #main -->
 		<footer>

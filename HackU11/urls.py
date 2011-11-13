@@ -7,15 +7,17 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	# Examples:
+
+	# User logins and logouts
 	url(r'^$', 'usermanager.views.index', name='index'),
 	url(r'^login$', 'usermanager.views.login', name='login'),
-	url(r'^register$', 'usermanager.views.register', name='register'),
+	url(r'^logout$', 'usermanager.views.logout', name='logout'),
 	
-	url(r'^logout$', 'usermanager.views.user_logout', name='logout'),
-	
+	# Ajax requests
 	url(r'^ajax/(?P<action>.*)$', 'webcli.ajax.do'),
 	
+	# Django admin
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
+
 )

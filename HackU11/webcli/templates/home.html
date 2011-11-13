@@ -12,7 +12,6 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/reset.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/jplayer.blue.monday/jplayer.blue.monday.css" />
-	<script type="text/javascript">window.CHAT_NICK = "{{ user.username }}"</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -90,11 +89,13 @@
 			<p>Footer goes here</p>
 		</footer>
 	</div> <!-- #wrapper -->
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-	<script type="text/javascript" src="https://raw.github.com/jquery/jquery-tmpl/master/jquery.tmpl.min.js"></script>
-	<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js"></script>
-	<script type="text/javascript" src="/static/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="/static/add-on/jquery.jplayer.inspector.js"></script>
-	<script type="text/javascript" src="/static/init.js"></script>
+	<script type="text/javascript">
+		head.js("http://code.jquery.com/jquery-1.6.4.min.js",
+				"https://raw.github.com/jquery/jquery-tmpl/master/jquery.tmpl.min.js",
+				"http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js",
+				"/static/jquery.jplayer.min.js",
+				"/static/add-on/jquery.jplayer.inspector.js",
+				"/static/init.js");
+	</script>
 </body>
 </html>
