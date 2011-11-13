@@ -33,6 +33,8 @@
 	
 	function ViewModel()
 	{
+		this.stationText = '';
+		
 		this.json = ko.observable({});
 		
 		this.history = ko.observableArray([]);

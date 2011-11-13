@@ -77,19 +77,20 @@
 							<span>Update Required</span>
 							To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
 						</div> <!-- .jp-no-solution -->
-					<!--<div>
-							<form action="/ajax/search/" method="GET">
-								<input type="text" placeholder="Search {{ title }}" data-bind="value: searchText, valueUpdate: 'afterkeydown'" />
-								<input type="submit" value="Search" />
-							</form>
-						</div>
-						<ul data-bind="foreach: searchResults, template: { name: 'searchResultTemplate' }"></ul>
-						<script type="text/x-jquery-tmpl" id="searchResultTemplate">
-							<li></li>
-						</script>-->
 					</div> <!-- .jp-type-single -->
 				</div> <!-- #jp-container-1.jp-audio -->
 			</div> <!-- #radio -->
+
+			<div id="station">
+				<form action="/ajax/search/" method="GET">
+					<input type="text" placeholder="Start a new station" data-bind="value: stationText, valueUpdate: 'afterkeydown'" />
+					<input type="submit" value="Create station" />
+				</form>
+			</div>
+			<script type="text/x-jquery-tmpl" id="searchResultTemplate">
+				<li></li>
+			</script>
+
 			<div id="history">
 				<ul data-bind='template: { name: "historyItemTemplate", foreach: history }'></ul>
 			</div>
