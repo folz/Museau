@@ -1,23 +1,15 @@
+#Setup
+
 ## Packages
 
 * python (v2.7.x or any compatible implementation, i.e. pypy)
 * python-virtualenv
-* python-pip
 
 ## Clone the git repository
 
 `git clone git@github.com:folz/HackU11.git HackU11 && cd HackU11`
 
 ## Set up Virtualenv
-
-Create a [pip](http://pypi.python.org/pypi/pip) requirements file that declares our use of Django:
-
-**requirements.txt**
-
-> Django==1.3
-> 
-> psycopg2==2.4.2
-
 
 Create a [Virtualenv](http://pypi.python.org/pypi/virtualenv):
 
