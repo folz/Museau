@@ -125,6 +125,24 @@ form p label {
 	height: 350px;
 	float: right;
 	background-color: #a8a8a8;
+	overflow: auto;
+}
+
+#history ul li {
+	font-size: 1.3em;
+	margin: 10px 5px;
+	border-top: 1px solid #fff;
+}
+
+#history ul li a {
+	clear: both;
+	color: #007BC3;
+	display: block;
+	min-height: 100px;
+}
+
+#history ul li a img {
+	float: left;
 }
 
 footer {

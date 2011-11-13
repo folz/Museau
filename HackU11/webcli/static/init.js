@@ -39,7 +39,13 @@
 		
 		this.addHistory = function(json)
 		{
-			this.history.push(json);
+			this.history.unshift(json);
+		}
+		
+		this.forceUpdateHistory = function($data)
+		{
+			viewModel.json($data);
+			viewModel.addHistory(viewModel.json());
 		}
 		
 		/***
@@ -69,15 +75,16 @@
 	}
 	window.viewModel = new ViewModel();
 	
-	function updateVM() {
+	function updateVM()
+	{
 		$.getJSON('/ajax/next_song.json', function(data)
 		{
+			data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
 			viewModel.json(data);
 			viewModel.addHistory(viewModel.json());
-			console.log(viewModel.history());
 		});
 	}
-	
+		
 	$(document).ready(function()
 	{
 		updateVM();
