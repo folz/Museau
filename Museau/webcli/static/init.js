@@ -77,7 +77,7 @@
 	}
 	window.viewModel = new ViewModel();
 	
-	function updateVM()
+	viewModel.updateVM = function()
 	{
 		$.getJSON('/ajax/next_song.json', function(data)
 		{
@@ -89,7 +89,7 @@
 		
 	$(document).ready(function()
 	{
-		updateVM();
+		viewModel.updateVM();
 		ko.applyBindings(viewModel, document.head);
 		ko.applyBindings(viewModel, document.body);
 	});

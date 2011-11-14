@@ -120,6 +120,13 @@ form p label {
 	margin: 0 auto;
 }
 
+.next-song {
+	float: right;
+	position: relative;
+	top: -2em;
+	right: 6em;
+}
+
 #station {
 	float: right;
 }
