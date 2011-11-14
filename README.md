@@ -52,6 +52,18 @@ Install dependencies with pip:
 > 
 > Cleaning up...
 
+Create the database for the first time:
+
+`$ python Museau/manage.py syncdb`
+
+> Creating tables ...
+> 
+> Installing custom SQL ...
+> 
+> Installing indexes ...
+> 
+> No fixtures found.
+
 Now the Django app should be runnable. Test to make sure the application runs:
 
 `$ python Museau/manage.py runserver`
