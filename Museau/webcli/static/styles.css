@@ -123,8 +123,9 @@ form p label {
 .next-song {
 	float: right;
 	position: relative;
-	top: -2em;
+	top: -2.3em;
 	right: 6em;
+	font-weight: bold;
 }
 
 #station {
