@@ -9,7 +9,7 @@
 					}).jPlayer("play");
 				},
 				ended: function (event) {
-					updateVM();
+					viewModel.updateVM();
 				},
 				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
 				supplied: "mp3",
