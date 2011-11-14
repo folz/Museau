@@ -90,6 +90,7 @@
 	$(document).ready(function()
 	{
 		updateVM();
-		ko.applyBindings(viewModel);
+		ko.applyBindings(viewModel, document.head);
+		ko.applyBindings(viewModel, document.body);
 	});
 }(jQuery));
