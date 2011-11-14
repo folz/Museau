@@ -7,7 +7,7 @@
 
 ## Clone the git repository
 
-`git clone git@github.com:folz/Museau.git Museau && cd Museau`
+`git clone git://github.com/folz/Museau.git Museau && cd Museau`
 
 ## Set up Virtualenv
 
