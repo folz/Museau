@@ -18,7 +18,7 @@
 		<header>
 			<nav>
 				<h1 id="title">{{ user.username }}'s {{ title }}</h1>
-
+				
 				<ul>
 					<li><a href="#" class="current">Profile</a></li>
 					<li><a href="/logout" class="current">Logout</a></li>
@@ -83,7 +83,7 @@
 					</div> <!-- .jp-type-single -->
 				</div> <!-- #jp-container-1.jp-audio -->
 			</div> <!-- #radio -->
-
+			
 			<div id="station">
 				<form action="/ajax/search/" method="GET">
 					<input type="text" placeholder="Start a new station" data-bind="value: stationText, valueUpdate: 'afterkeydown'" />
@@ -93,7 +93,7 @@
 			<script type="text/x-jquery-tmpl" id="searchResultTemplate">
 				<li></li>
 			</script>
-
+			
 			<div id="history">
 				<ul data-bind='template: { name: "historyItemTemplate", foreach: history }'></ul>
 			</div>
