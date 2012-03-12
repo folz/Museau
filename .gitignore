@@ -2,9 +2,5 @@
 *.pyc
 *.git
 dummy_*
-bin
-build
-lib
-lib64
-include
 .Python
+venv/
