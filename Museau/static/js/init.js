@@ -35,6 +35,8 @@
 	{
 		this.stationText = '';
 		
+		this.stations = ko.observableArray([]);
+		
 		this.json = ko.observable({});
 		
 		this.history = ko.observableArray([]);
@@ -77,6 +79,14 @@
 	}
 	window.viewModel = new ViewModel();
 	
+	viewModel.getStations = function()
+	{
+		$.getJSON('/ajax/stations.json', function(data)
+		{
+			viewModel.stations(data);
+		});
+	}
+	
 	viewModel.updateVM = function()
 	{
 		$.getJSON('/ajax/next_song.json', function(data)
@@ -89,6 +99,7 @@
 		
 	$(document).ready(function()
 	{
+		viewModel.getStations();
 		viewModel.updateVM();
 		ko.applyBindings(viewModel, document.head);
 		ko.applyBindings(viewModel, document.body);
