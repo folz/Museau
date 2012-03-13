@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User, check_password
 
-from python_pandora import pandora
+from pandora import pandora
 
 class PandoraBackend(object):
 	"""
@@ -18,6 +18,7 @@ class PandoraBackend(object):
 		password = kwargs['password']
 		
 		if api.authenticate(username, password):
+			print "{0} valid".format(username)
 			''' The Pandora credentials are valid. '''
 			
 			if User.objects.filter(username=username).exists():
@@ -29,10 +30,11 @@ class PandoraBackend(object):
 				user.set_unusable_password() # because we use Pandora for authentication
 				user.save()
 			
-			user_profile = user.get_profile()
-			user_profile.pandora_password = password
-			user_profile.save()
+			profile = user.get_profile()
+			profile.pandora_password = password
+			profile.save()
 			
+			print user.get_profile().pandora_password
 			
 			return user
 		else:

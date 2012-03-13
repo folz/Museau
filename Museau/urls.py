@@ -8,16 +8,25 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-	# User logins and logouts
-	url(r'^$', 'usermanager.views.index', name='index'),
-	url(r'^login$', 'usermanager.views.login', name='login'),
-	url(r'^logout$', 'usermanager.views.logout', name='logout'),
+	# Museau
+	
+	url(r'^$', 'music.views.home', name='home'),
+	
 	
 	# Ajax requests
-	url(r'^ajax/(?P<action>.*)\.(?P<filetype>.*)$', 'webcli.ajax.do'),
 	
-	# Django admin
+	url(r'^ajax/(?P<action>.*)\.(?P<filetype>.*)$', 'music.ajax.do', name='ajax'),
+	
+	# django-registration
+	
+	url(r'^accounts/', include('registration.urls')),
+	
+	url(r'^accounts/profile/$', 'music.views.back_to_home', name='redir'),
+	
+	
+	# Django Admin
+	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	
 	url(r'^admin/', include(admin.site.urls)),
-
 )

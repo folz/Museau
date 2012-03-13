@@ -4,10 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 
-from webcli.models import *
-from python_pandora import pandora
-
-from django.conf import settings
+from models import *
+from pandora import pandora
 
 @login_required
 def do(req, action, filetype):

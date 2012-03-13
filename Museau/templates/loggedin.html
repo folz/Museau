@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block nav %}
+
+<ul class="nav pull-right">
+	<li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<i class="icon-user icon-white"></i>
+			{{ user.username }}
+			<strong class="caret"></strong>
+		</a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="#"><strong>{{ user.get_profile.name }}</strong><br />View my profile page</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="#">Edit Profile</a>
+			</li>
+			<li><a href="{% url auth_password_change %}">Change password</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="{% url auth_logout %}">Log out</a>
+			</li>
+		</ul> <!-- .dropdown-menu -->
+	</li> <!-- .dropdown -->
+	<li>
+		<a data-toggle="modal" href="#chirp">Chirp</a>
+	</li>
+</ul> <!-- .nav.pull-right -->
+
+{% endblock %}

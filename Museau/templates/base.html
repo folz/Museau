@@ -1,0 +1,66 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<link rel="icon" type="image/png" href="favicon.png" />
+	
+	<script type="text/javascript" src="{{ STATIC_URL }}js/head.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/styles.css" />
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<div class="navbar navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="brand" href="{% url home %}">Museau</a>
+						<ul class="nav">
+							<li><a href="{% url home %}">Home</a></li>
+						</ul> <!-- .nav -->
+						{% block nav %}
+							<ul class="nav pull-right">
+								<li><a href="{% url auth_login %}">Log in</a></li> 
+								<li><a href="{% url registration_register %}">Register</a></li>
+							</ul>
+						{% endblock %}
+					</div> <!-- .container -->
+				</div> <!-- .navbar-inner -->
+			</div> <!-- .navbar.navbar-fixed-top -->
+			{% if messages %}
+				<ul class="messages">
+				{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+		<div id="content" class="container">
+			{% block content %}{% endblock %}
+		</div>
+		<footer>
+			<em>Go beyond the impossible and kick reason to the curb!</em>
+		</footer>
+	</div> <!-- #wrapper -->
+
+{% block modal %}{% endblock %}
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+	head.js(
+		    'https://ajax.microsoft.com/ajax/jquery/jquery-1.7.1.min.js'
+		  , '{{ STATIC_URL }}js/bootstrap.js'
+{% block scripts %}{% endblock %}
+		);
+</script>
+</body>
+
+</html>

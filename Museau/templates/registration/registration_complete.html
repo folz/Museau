@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} / Check your email{% endblock %}
+
+{% block content %}
+
+<p>{% trans "We sent you an activation email! You'll need to click on the link inside it before you can log in." %}</p>
+{% endblock %}
