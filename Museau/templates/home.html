@@ -2,76 +2,90 @@
 
 {% block content %}
 
-<div id="radio" class="span6 well">
-	<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
+<div class="row">
+	<div id="actions" class="span4 offset6">
+		<div class="btn-group">
+			<button class="btn">-1</button>
+			<button class="btn">+1</button>
+			<button class="btn" data-bind="click: function() { updateVM() }">Next song</button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div id="station" class="span3">
+		<ul class="nav nav-tabs nav-stacked" data-bind='template: { name: "stationItemTemplate", foreach: stations }'></ul>
+	</div>
+	<script type="text/x-jquery-tmpl" id="stationItemTemplate">
+		<li>
+			<a href="#">
+				<span data-bind="text: stationName"></span>
+			</a>
+		</li>
+	</script>
 	
-	<div id="jp_container_1" class="jp-audio">
-		<div class="jp-type-single">
-			<div class="jp-gui jp-interface">
-				<ul class="jp-controls">
-					<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-					<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-					<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-					<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-					<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-				</ul>
-				<div class="jp-progress">
-					<div class="jp-seek-bar">
-						<div class="jp-play-bar"></div>
+	<div id="radio" class="span8">
+		<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
+		
+		<div id="jp_container_1" class="jp-audio">
+			<div class="jp-type-single">
+				<div class="jp-gui jp-interface">
+					<ul class="jp-controls">
+						<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+						<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+						<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+						<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+						<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+					</ul>
+					<div class="jp-progress">
+						<div class="jp-seek-bar">
+							<div class="jp-play-bar"></div>
+						</div>
 					</div>
-				</div>
-				<div class="jp-volume-bar">
-					<div class="jp-volume-bar-value"></div>
-				</div>
-				<div class="jp-time-holder">
-					<div class="jp-current-time"></div>
-					<div class="jp-duration"></div>
-				</div>
-				<div class="next-song">
-					<a href="#" data-bind="click: function() { updateVM() }">Next Song</a>
-				</div>
-			</div> <!-- .jp-gui.jp-interface -->
-			<img data-bind="attr: { src: albumArt } " />
-			<div class="jp-title">
-				<ul>
-					<li>Now playing
-						<span data-bind="text: title"></span>
-						by
-						<span data-bind="text: artist"></span>
-						on
-						<span data-bind="text: album"></span>
-					</li>
-				</ul>
-			</div> <!-- .jp-title -->
-			<div class="jp-no-solution">
-				<span>Update Required</span>
-				To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-			</div> <!-- .jp-no-solution -->
-		</div> <!-- .jp-type-single -->
-	</div> <!-- #jp-container-1.jp-audio -->
-</div> <!-- #radio -->
+					<div class="jp-volume-bar">
+						<div class="jp-volume-bar-value"></div>
+					</div>
+					<div class="jp-time-holder">
+						<div class="jp-current-time"></div>
+						<div class="jp-duration"></div>
+					</div>
 
-<div id="station" class="span6 well">
-	<form action="/ajax/search/" method="GET">
-		<input type="text" placeholder="Start a new station" data-bind="value: stationText, valueUpdate: 'afterkeydown'" />
-		<input type="submit" value="Create station" />
-	</form>
-</div>
-<script type="text/x-jquery-tmpl" id="searchResultTemplate">
-	<li></li>
-</script>
+				</div> <!-- .jp-gui.jp-interface -->
+				<div class="jp-title">
+					<ul>
+						<li>Now playing
+							<span data-bind="text: title"></span>
+							by
+							<span data-bind="text: artist"></span>
+							on
+							<span data-bind="text: album"></span>
+						</li>
+					</ul>
+				</div> <!-- .jp-title -->
+				<img data-bind="attr: { src: albumArt } " />
+				<div class="jp-no-solution">
+					<span>Update Required</span>
+					To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+				</div> <!-- .jp-no-solution -->
+			</div> <!-- .jp-type-single -->
+		</div> <!-- #jp-container-1.jp-audio -->
+	</div> <!-- #radio -->
 
-<div id="history">
-	<ul data-bind='template: { name: "historyItemTemplate", foreach: history }'></ul>
+
+	<div id="history" class="span3">
+		<ul class="nav nav-tabs nav-stacked" data-bind='template: { name: "historyItemTemplate", foreach: history }'></ul>
+	</div>
+	<script type="text/html" id="historyItemTemplate">
+		<li>
+			<a href="#" data-bind="click: function() { viewModel.forceUpdateHistory($data) }">
+				<img width="100px" height="100px" data-bind="attr: { src: artistArtUrl } " />
+				<span data-bind="text: songTitle"></span> by <span data-bind="text: artistSummary"></span>
+			</a>
+		</li>
+	</script>
 </div>
-<script type="text/html" id="historyItemTemplate">
-	<li>
-		<a href="#" data-bind="click: function() { viewModel.forceUpdateHistory($data) }">
-			<img width="100px" height="100px" data-bind="attr: { src: artistArtUrl } " />
-			<span data-bind="text: songTitle"></span> by <span data-bind="text: artistSummary"></span>
-		</a>
-	</li>
-</script>
+
+
 
 {% endblock %}
 
