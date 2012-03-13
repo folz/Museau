@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-	<div id="actions" class="span4 offset6">
+	<div id="actions" class="span4 offset4">
 		<div class="btn-group">
 			<button class="btn">-1</button>
 			<button class="btn">+1</button>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">
-	<div id="station" class="span3">
+	<div id="station" class="span2">
 		<ul class="nav nav-tabs nav-stacked" data-bind='template: { name: "stationItemTemplate", foreach: stations }'></ul>
 	</div>
 	<script type="text/x-jquery-tmpl" id="stationItemTemplate">
@@ -24,7 +24,7 @@
 		</li>
 	</script>
 	
-	<div id="radio" class="span8">
+	<div id="radio" class="span7">
 		<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
 		
 		<div id="jp_container_1" class="jp-audio">
