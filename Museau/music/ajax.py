@@ -12,35 +12,38 @@ def do(req, action, filetype):
 	actions = {
 		'next_song': get_next_song,
 		'search': search,
+		'stations': get_stations,
 	}
 	
-	return actions[action](req, filetype)
-
-def get_next_song(req, filetype):
 	api = pandora.Pandora()
 	username = req.user.username
 	password = req.user.get_profile().pandora_password
 	
 	if api.authenticate(username, password):
-		# output stations (without QuickMix)
-		for station in api.getStationList():
-			if station['isQuickMix']: 
-				quickmix = station
-				break
-		
-		api.switchStation(quickmix)
-		
-		next_song = api.getNextSong()
-		
-		x = HttpResponse(json.dumps(next_song))
-		x['Cache-Control'] = 'no-cache'
-		return x
+		return actions[action](req, filetype, api)
 	else:
 		return HttpResponse(json.dumps({
-			'error': 'authentication failed'
-		}))
+			'error': 'authentication failed'}))
 
-def search(req, filetype):
+def get_next_song(req, filetype, api):
+	# output stations (without QuickMix)
+	for station in api.getStationList():
+		if station['isQuickMix']: 
+			quickmix = station
+			break
+	
+	api.switchStation(quickmix)
+	
+	next_song = api.getNextSong()
+	
+	x = HttpResponse(json.dumps(next_song))
+	x['Cache-Control'] = 'no-cache'
+	return x
+
+def get_stations(req, filetype, api):
+	return HttpResponse(json.dumps(api.getStationList()))
+
+def search(req, filetype, api):
 	terms = req.GET.get('searchText')
 	
 	return HttpResponse(json.dumps(terms));
