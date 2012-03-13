@@ -77,8 +77,8 @@
 	</div>
 	<script type="text/html" id="historyItemTemplate">
 		<li>
-			<a href="#" data-bind="click: function() { viewModel.forceUpdateHistory($data) }">
-				<img width="100px" height="100px" data-bind="attr: { src: artistArtUrl } " />
+			<a href="#" style="overflow: auto" data-bind="click: function() { viewModel.forceUpdateHistory($data) }">
+				<img class="pull-left" width="100px" height="100px" data-bind="attr: { src: artistArtUrl } " />
 				<span data-bind="text: songTitle"></span> by <span data-bind="text: artistSummary"></span>
 			</a>
 		</li>
