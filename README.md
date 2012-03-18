@@ -7,13 +7,13 @@
 
 ## Clone the git repository
 
-`git clone git://github.com/folz/Museau.git Museau && cd Museau`
+`git clone git://github.com/folz/Museau.git && cd Museau`
 
 ## Set up Virtualenv
 
 Create a [Virtualenv](http://pypi.python.org/pypi/virtualenv):
 
-`$ virtualenv --no-site-packages .`
+`$ virtualenv venv --distribute`
 
 > New python executable in ./bin/python
 > 
@@ -22,7 +22,7 @@ Create a [Virtualenv](http://pypi.python.org/pypi/virtualenv):
 
 Before running pip (or the application), you’ll need to source the Virtualenv environment:
 
-`$ source bin/activate`
+`$ source venv/bin/activate`
 
 This will change your prompt to include the project name. (You must source the virtualenv environment for each terminal session where you wish to run your app.)
 
@@ -52,6 +52,11 @@ Install dependencies with pip:
 > 
 > Cleaning up...
 
+The `python-pandora` installer is broken, so you'll have to manually
+move the files in `venv/pandora/` to `venv/lib/python2.7/site-packages/pandora`:
+
+`$ mv venv/pandora/* venv/lib/python2.7/site-packages/pandora/`
+
 Create the database for the first time:
 
 `$ python Museau/manage.py syncdb`
@@ -64,7 +69,7 @@ Create the database for the first time:
 > 
 > No fixtures found.
 
-Now the Django app should be runnable. Test to make sure the application runs:
+Now the Django app should be runnable:
 
 `$ python Museau/manage.py runserver`
 
@@ -80,4 +85,4 @@ Now the Django app should be runnable. Test to make sure the application runs:
 > 
 > Quit the server with CONTROL-C.
 
-Ctrl-C to exit the server.
+Open http://127.0.0.1:8000/ in your favorite web browser and enjoy Museau!
