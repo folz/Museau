@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.template import RequestContext
 
 from models import *
-from forms import *
 
 import random
 
