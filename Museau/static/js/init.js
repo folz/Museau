@@ -89,6 +89,7 @@
 	
 	viewModel.updateVM = function()
 	{
+		$("#jquery_jplayer_1").jPlayer("pause");
 		$.getJSON('/ajax/next_song.json', function(data)
 		{
 			data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
