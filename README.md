@@ -52,11 +52,6 @@ Install dependencies with pip:
 > 
 > Cleaning up...
 
-The `python-pandora` installer is broken, so you'll have to manually
-move the files in `venv/pandora/` to `venv/lib/python2.7/site-packages/pandora`:
-
-`$ mv venv/pandora/* venv/lib/python2.7/site-packages/pandora/`
-
 Create the database for the first time:
 
 `$ python Museau/manage.py syncdb`
