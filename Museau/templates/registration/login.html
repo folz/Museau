@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<p>Log in with your Pandora username and password.</p>
+
 <form method="POST" action="{% url auth_login %}">
 	{% csrf_token %}
 	<table>{{ form.as_p }}</table>
