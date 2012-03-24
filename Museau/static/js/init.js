@@ -1,5 +1,7 @@
 ;(function( $, undefined )
 {
+	var bridge;
+	
 	ko.bindingHandlers.jPlayer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 			$(element).jPlayer({
@@ -81,28 +83,34 @@
 	
 	viewModel.getStations = function()
 	{
-		$.getJSON('/ajax/stations.json', function(data)
-		{
-			viewModel.stations(data);
+		bridge.getService("pandora", function (service) {
+			service.getStationList(function(data) {
+				viewModel.stations(data);
+			});
 		});
 	}
 	
 	viewModel.updateVM = function()
 	{
 		$("#jquery_jplayer_1").jPlayer("pause");
-		$.getJSON('/ajax/next_song.json', function(data)
-		{
-			data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
-			viewModel.json(data);
-			viewModel.addHistory(viewModel.json());
+		bridge.getService("pandora", function (service) {
+			service.getNextSong(function(data) {
+				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
+				viewModel.json(data);
+				viewModel.addHistory(viewModel.json());
+			});
 		});
 	}
-		
+	
 	$(document).ready(function()
 	{
-		viewModel.getStations();
-		viewModel.updateVM();
-		ko.applyBindings(viewModel, document.head);
-		ko.applyBindings(viewModel, document.body);
+		bridge = new Bridge({ apiKey: "//FILL THIS IN" });
+		
+		bridge.ready(function() {
+			viewModel.getStations();
+			viewModel.updateVM();
+			ko.applyBindings(viewModel, document.head);
+			ko.applyBindings(viewModel, document.body);
+		});
 	});
 }(jQuery));
