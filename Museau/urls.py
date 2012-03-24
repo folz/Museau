@@ -13,10 +13,6 @@ urlpatterns = patterns('',
 	url(r'^$', 'music.views.home', name='home'),
 	
 	
-	# Ajax requests
-	
-	url(r'^ajax/(?P<action>.*)\.(?P<filetype>.*)$', 'music.ajax.do', name='ajax'),
-	
 	# django-registration
 	
 	url(r'^accounts/', include('registration.urls')),
