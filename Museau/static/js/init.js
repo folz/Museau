@@ -6,8 +6,6 @@
 	
 	function ViewModel()
 	{
-		this.stationText = '';
-		
 		this.stations = ko.observableArray([]);
 		
 		this.json = ko.observable({});
