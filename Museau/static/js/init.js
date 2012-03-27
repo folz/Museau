@@ -12,16 +12,6 @@
 		
 		this.history = ko.observableArray([]);
 		
-		this.addHistory = function(json)
-		{
-			this.history.unshift(json);
-		}
-		
-		this.forceUpdateHistory = function($data)
-		{
-			viewModel.json($data);
-			viewModel.addHistory(viewModel.json());
-		}
 		this.songUrl = ko.computed(function(key)
 		{
 			return this.json()['audioURL'];
@@ -54,6 +44,36 @@
 		bridge.getService("pandora", function (service) {
 			service.getStationList(function(data) {
 				viewModel.stations(data);
+		
+		this.quickMix = ko.computed(function(key)
+		{
+			return ko.utils.arrayFilter(this.stations(), function(item)
+			{
+				return item['isQuickMix'];
+			})[0];
+		}, this);
+		
+		this.addHistory = function(json)
+		{
+			this.history.unshift(json);
+		}
+		
+		this.forceUpdateHistory = function($data)
+		{
+			viewModel.json($data);
+			viewModel.addHistory(viewModel.json());
+		}
+		
+		this.updateVM = function()
+		{
+			$("#jquery_jplayer_1").jPlayer("pause");
+			bridge.getService("pandora", function(service)
+			{
+				service.getNextSong(function(data) {
+					data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
+					viewModel.json(data);
+					viewModel.addHistory(viewModel.json());
+				});
 			});
 		});
 	}
