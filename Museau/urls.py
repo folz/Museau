@@ -18,11 +18,4 @@ urlpatterns = patterns('',
 	url(r'^accounts/', include('registration.urls')),
 	
 	url(r'^accounts/profile/$', 'music.views.back_to_home', name='redir'),
-	
-	
-	# Django Admin
-	
-	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-	
-	url(r'^admin/', include(admin.site.urls)),
 )
