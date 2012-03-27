@@ -53,28 +53,27 @@
 			viewModel.json($data);
 			viewModel.addHistory(viewModel.json());
 		}
-		
-		/***
-		 *  accessors for the view
-		 ***/
-		 
-		this.songUrl = ko.dependentObservable(function(key)
+		this.songUrl = ko.computed(function(key)
 		{
 			return this.json()['audioURL'];
 		}, this);
-		this.albumArt = ko.dependentObservable(function(key)
+		
+		this.albumArt = ko.computed(function(key)
 		{
 			return this.json()['artistArtUrl'];
 		}, this);
-		this.title = ko.dependentObservable(function(key)
+		
+		this.title = ko.computed(function(key)
 		{
 			return this.json()['songTitle'];
 		}, this);
-		this.artist = ko.dependentObservable(function(key)
+		
+		this.artist = ko.computed(function(key)
 		{
 			return this.json()['artistSummary'];
 		}, this);
-		this.album = ko.dependentObservable(function(key)
+		
+		this.album = ko.computed(function(key)
 		{
 			return this.json()['albumTitle'];
 		}, this);
