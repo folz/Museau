@@ -2,36 +2,7 @@
 {
 	var bridge;
 	
-	ko.bindingHandlers.jPlayer = {
-		init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			$(element).jPlayer({
-				ready: function (event) {
-					$(this).jPlayer("setMedia", {
-						mp3: viewModel.json().audioURL,
-					}).jPlayer("play");
-				},
-				ended: function (event) {
-					viewModel.updateVM();
-				},
-				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
-				supplied: "mp3",
-				preload: 'auto',
-				wmode: 'window',
-			});
-		},
 		
-		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			console.log("jPlayer updated! Now playing "
-						+ viewModel.json().songTitle
-						+ " by "
-						+ viewModel.json().artistSummary
-						+ " at URL "
-						+ viewModel.json().audioURL);
-			$(element).jPlayer("clearMedia").jPlayer("setMedia", {
-				mp3: viewModel.json().audioURL
-			}).jPlayer("play");
-		}
-	};
 	
 	function ViewModel()
 	{
@@ -90,6 +61,7 @@
 	}
 	
 	viewModel.updateVM = function()
+	ko.bindingHandlers.jPlayer =
 	{
 		$("#jquery_jplayer_1").jPlayer("pause");
 		bridge.getService("pandora", function (service) {
@@ -97,6 +69,23 @@
 				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
 				viewModel.json(data);
 				viewModel.addHistory(viewModel.json());
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel)
+		{
+			$(element).jPlayer({
+				ready: function(event)
+				{
+					$(this).jPlayer("setMedia", {
+						mp3: viewModel.json().audioURL,
+					}).jPlayer("play");
+				},
+				ended: function(event)
+				{
+					viewModel.updateVM();
+				},
+				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
+				supplied: "mp3",
+				preload: 'auto',
+				wmode: 'window',
 			});
 		});
 	}
@@ -104,6 +93,7 @@
 	$(document).ready(function()
 	{
 		bridge = new Bridge({ apiKey: "//FILL THIS IN" });
+		},
 		
 		bridge.ready(function() {
 			viewModel.getStations();
@@ -112,4 +102,17 @@
 			ko.applyBindings(viewModel, document.body);
 		});
 	});
+		update: function(element, valueAccessor, allBindingsAccessor, viewModel)
+		{
+			console.log("jPlayer updated! Now playing "
+						+ viewModel.json().songTitle
+						+ " by "
+						+ viewModel.json().artistSummary
+						+ " at URL "
+						+ viewModel.json().audioURL);
+			$(element).jPlayer("clearMedia").jPlayer("setMedia", {
+				mp3: viewModel.json().audioURL
+			}).jPlayer("play");
+		}
+	};
 }(jQuery));
