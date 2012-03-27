@@ -1,8 +1,31 @@
-;(function( $, undefined )
+;(function($, undefined)
 {
 	var bridge;
+	var viewModel;
 	
+	$(document).ready(function()
+	{
+		viewModel = new ViewModel()
+		ko.applyBindings(viewModel);
 		
+		bridge = new Bridge({ apiKey: "// FILL IN" });
+		
+		bridge.ready(function()
+		{
+			bridge.getService("pandora", function(service)
+			{
+				service.getStationList(function(data)
+				{
+					viewModel.stations(data);
+					
+					service.switchStation(viewModel.quickMix(), function()
+					{
+						viewModel.updateVM();
+					});
+				});
+			});
+		});
+	});
 	
 	function ViewModel()
 	{
@@ -36,14 +59,6 @@
 		{
 			return this.json()['albumTitle'];
 		}, this);
-	}
-	window.viewModel = new ViewModel();
-	
-	viewModel.getStations = function()
-	{
-		bridge.getService("pandora", function (service) {
-			service.getStationList(function(data) {
-				viewModel.stations(data);
 		
 		this.quickMix = ko.computed(function(key)
 		{
@@ -75,18 +90,11 @@
 					viewModel.addHistory(viewModel.json());
 				});
 			});
-		});
+		}
 	}
 	
-	viewModel.updateVM = function()
 	ko.bindingHandlers.jPlayer =
 	{
-		$("#jquery_jplayer_1").jPlayer("pause");
-		bridge.getService("pandora", function (service) {
-			service.getNextSong(function(data) {
-				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
-				viewModel.json(data);
-				viewModel.addHistory(viewModel.json());
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel)
 		{
 			$(element).jPlayer({
@@ -105,21 +113,8 @@
 				preload: 'auto',
 				wmode: 'window',
 			});
-		});
-	}
-	
-	$(document).ready(function()
-	{
-		bridge = new Bridge({ apiKey: "//FILL THIS IN" });
 		},
 		
-		bridge.ready(function() {
-			viewModel.getStations();
-			viewModel.updateVM();
-			ko.applyBindings(viewModel, document.head);
-			ko.applyBindings(viewModel, document.body);
-		});
-	});
 		update: function(element, valueAccessor, allBindingsAccessor, viewModel)
 		{
 			console.log("jPlayer updated! Now playing "
