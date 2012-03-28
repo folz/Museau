@@ -1,10 +1,28 @@
 ;(function($, undefined) {
-	var ViewModel;
+	var Station;
 	var Song;
+	var ViewModel;
 	
 	var bridge;
 	var pandora;
 	var vm;
+	
+	Station = (function() {
+		
+		function Station(data) {
+			this.data = data;
+		}
+		
+		Station.prototype.toString = function() {
+			return "" + this.data.stationName;
+		}
+		
+		Station.prototype.isQuickMix = function() {
+			return this.data.isQuickMix;
+		}
+		
+		return Station;
+	})();
 	
 	Song = (function() {
 		
@@ -21,7 +39,7 @@
 		};
 		
 		Song.prototype.albumArt = function() {
-			return "" + this.data.artistArtUrl;
+			return "" + this.data.artistArtUrl || "/static/img/noalbumart.png";
 		};
 		
 		return Song;
@@ -30,7 +48,7 @@
 	ViewModel = (function() {
 		
 		function ViewModel() {
-			this.currentStation = ko.observable({});
+			this.currentStation = ko.observable(new Station({}));
 			this.stations = ko.observableArray([]);
 			
 			this.currentSong = ko.observable(new Song({}));
@@ -46,7 +64,7 @@
 					
 			this.quickMix = ko.computed(function() {
 				return ko.utils.arrayFilter(this.stations(), function(item) {
-					return item['isQuickMix'];
+					return item.isQuickMix();
 				})[0];
 			}, this);
 		};
@@ -62,18 +80,16 @@
 			
 			$("#jquery_jplayer_1").jPlayer("pause");
 			pandora.getNextSong(function(data) {
-				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
-				
 				var song = new Song(data);
 				self.forceUpdateHistory(song);
 			});
 		};
 		
-		ViewModel.prototype.switchStation = function(data) {
+		ViewModel.prototype.switchStation = function(station) {
 			var self = this;
 			
-			pandora.switchStation(data, function() {
-				//this.currentStation(data);
+			pandora.switchStation(station.data, function() {
+				self.currentStation(station);
 				self.nextSong();
 			});
 		};
