@@ -45,8 +45,7 @@
 			}, this);
 					
 			this.quickMix = ko.computed(function() {
-				return ko.utils.arrayFilter(this.stations(), function(item)
-				{
+				return ko.utils.arrayFilter(this.stations(), function(item) {
 					return item['isQuickMix'];
 				})[0];
 			}, this);
