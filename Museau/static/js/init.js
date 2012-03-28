@@ -7,6 +7,9 @@
 	var pandora;
 	var vm;
 	
+	var username = prompt("Username");
+	var password = prompt("Password");
+	
 	Station = (function() {
 		
 		function Station(data) {
@@ -79,7 +82,7 @@
 			var self = this;
 			
 			$("#jquery_jplayer_1").jPlayer("pause");
-			pandora.getNextSong(function(data) {
+			pandora.getNextSong(username, function(data) {
 				var song = new Song(data);
 				self.forceUpdateHistory(song);
 			});
@@ -88,7 +91,7 @@
 		ViewModel.prototype.switchStation = function(station) {
 			var self = this;
 			
-			pandora.switchStation(station.data, function() {
+			pandora.switchStation(username, station.data, function() {
 				self.currentStation(station);
 				self.nextSong();
 			});
@@ -135,8 +138,8 @@
 				
 				pandora = service;
 				
-				pandora.authenticate("", "", function() {
-					pandora.getStationList(function(data) {
+				pandora.authenticate(username, password, function() {
+					pandora.getStationList(username, function(data) {
 						
 						for (var i = 0, l = data.length; i < l; i++) {
 							vm.stations.push(new Station(data[i]));
