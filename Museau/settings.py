@@ -125,13 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'registration',
     'pandora',
-    'music',
-)
-
-AUTHENTICATION_BACKENDS = (
-    'music.auth_backends.PandoraBackend',
 )
 
 # A sample logging configuration. The only tangible logging
