@@ -50,13 +50,13 @@
 					return item['isQuickMix'];
 				})[0];
 			}, this);
-		}
+		};
 		
 		ViewModel.prototype.forceUpdateHistory = function(data) {
 			var song = new Song(data)
 			this.currentSong(song);
 			this.history.unshift(song);
-		}
+		};
 		
 		ViewModel.prototype.nextSong = function() {
 			var self = this;
@@ -66,7 +66,7 @@
 				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
 				self.forceUpdateHistory(data);
 			});
-		}
+		};
 		
 		ViewModel.prototype.switchStation = function(data) {
 			var self = this;
@@ -76,7 +76,7 @@
 				//this.currentStation(data);
 				self.nextSong();
 			});
-		}
+		};
 		
 		return ViewModel;
 	})();
