@@ -51,8 +51,7 @@
 			}, this);
 		};
 		
-		ViewModel.prototype.forceUpdateHistory = function(data) {
-			var song = new Song(data)
+		ViewModel.prototype.forceUpdateHistory = function(song) {
 			this.currentSong(song);
 			this.history.unshift(song);
 		};
@@ -63,7 +62,9 @@
 			$("#jquery_jplayer_1").jPlayer("pause");
 			pandora.getNextSong(function(data) {
 				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
-				self.forceUpdateHistory(data);
+				
+				var song = new Song(data);
+				self.forceUpdateHistory(song);
 			});
 		};
 		
