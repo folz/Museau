@@ -53,6 +53,7 @@
 		
 		ViewModel.prototype.forceUpdateHistory = function(song) {
 			this.currentSong(song);
+			this.history.remove(song)
 			this.history.unshift(song);
 		};
 		
