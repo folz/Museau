@@ -1,112 +1,96 @@
-;(function($, undefined)
-{
+;(function($, undefined) {
+	var ViewModel;
+	var Song;
+	
 	var bridge;
-	var viewModel;
+	var pandora;
+	var vm;
 	
-	$(document).ready(function()
-	{
-		viewModel = new ViewModel()
-		ko.applyBindings(viewModel);
+	Song = (function() {
 		
-		bridge = new Bridge({ apiKey: "// FILL IN" });
+		function Song(data) {
+			this.data = data;
+		}
 		
-		bridge.ready(function()
-		{
-			bridge.getService("pandora", function(service)
-			{
-				service.getStationList(function(data)
-				{
-					viewModel.stations(data);
+		Song.prototype.toString = function() {
+			return "" + this.data.songTitle + " by " + this.data.artistSummary + " on " + this.data.albumTitle;
+		};
+		
+		Song.prototype.url = function() {
+			return "" + this.data.audioURL;
+		};
+		
+		Song.prototype.albumArt = function() {
+			return "" + this.data.artistArtUrl;
+		};
+		
+		return Song;
+	})();
+	
+	ViewModel = (function() {
+		
+		function ViewModel() {
+			this.currentStation = ko.observable({});
+			this.stations = ko.observableArray([]);
+			
+			this.currentSong = ko.observable(new Song({}));
+			this.history = ko.observableArray([]);
+			
+			this.songUrl = ko.computed(function() {
+				return this.currentSong().url();
+			}, this);
+			
+			this.albumArt = ko.computed(function() {
+				return this.currentSong().albumArt();
+			}, this);
 					
-					service.switchStation(viewModel.quickMix(), function()
-					{
-						viewModel.updateVM();
-					});
-				});
-			});
-		});
-	});
-	
-	function ViewModel()
-	{
-		this.stations = ko.observableArray([]);
-		
-		this.json = ko.observable({});
-		
-		this.history = ko.observableArray([]);
-		
-		this.songUrl = ko.computed(function(key)
-		{
-			return this.json()['audioURL'];
-		}, this);
-		
-		this.albumArt = ko.computed(function(key)
-		{
-			return this.json()['artistArtUrl'];
-		}, this);
-		
-		this.title = ko.computed(function(key)
-		{
-			return this.json()['songTitle'];
-		}, this);
-		
-		this.artist = ko.computed(function(key)
-		{
-			return this.json()['artistSummary'];
-		}, this);
-		
-		this.album = ko.computed(function(key)
-		{
-			return this.json()['albumTitle'];
-		}, this);
-		
-		this.quickMix = ko.computed(function(key)
-		{
-			return ko.utils.arrayFilter(this.stations(), function(item)
-			{
-				return item['isQuickMix'];
-			})[0];
-		}, this);
-		
-		this.addHistory = function(json)
-		{
-			this.history.unshift(json);
-		}
-		
-		this.forceUpdateHistory = function($data)
-		{
-			viewModel.json($data);
-			viewModel.addHistory(viewModel.json());
-		}
-		
-		this.updateVM = function()
-		{
-			$("#jquery_jplayer_1").jPlayer("pause");
-			bridge.getService("pandora", function(service)
-			{
-				service.getNextSong(function(data) {
-					data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
-					viewModel.json(data);
-					viewModel.addHistory(viewModel.json());
-				});
-			});
-		}
-	}
-	
-	ko.bindingHandlers.jPlayer =
-	{
-		init: function(element, valueAccessor, allBindingsAccessor, viewModel)
-		{
-			$(element).jPlayer({
-				ready: function(event)
+			this.quickMix = ko.computed(function() {
+				return ko.utils.arrayFilter(this.stations(), function(item)
 				{
+					return item['isQuickMix'];
+				})[0];
+			}, this);
+		}
+		
+		ViewModel.prototype.forceUpdateHistory = function(data) {
+			var song = new Song(data)
+			this.currentSong(song);
+			this.history.unshift(song);
+		}
+		
+		ViewModel.prototype.nextSong = function() {
+			var self = this;
+			
+			$("#jquery_jplayer_1").jPlayer("pause");
+			pandora.getNextSong(function(data) {
+				data['artistArtUrl'] = data['artistArtUrl'] || "/static/img/noalbumart.png";
+				self.forceUpdateHistory(data);
+			});
+		}
+		
+		ViewModel.prototype.switchStation = function(data) {
+			var self = this;
+			
+			console.log("Switching to ", data['stationName']);
+			pandora.switchStation(data, function() {
+				//this.currentStation(data);
+				self.nextSong();
+			});
+		}
+		
+		return ViewModel;
+	})();
+	
+	ko.bindingHandlers.jPlayer = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+			$(element).jPlayer({
+				ready: function(event) {
 					$(this).jPlayer("setMedia", {
-						mp3: viewModel.json().audioURL,
+						mp3: viewModel.currentSong().audioURL,
 					}).jPlayer("play");
 				},
-				ended: function(event)
-				{
-					viewModel.updateVM();
+				ended: function(event) {
+					viewModel.nextSong();
 				},
 				swfPath: "http://www.jplayer.org/2.1.0/js/Jplayer.swf",
 				supplied: "mp3",
@@ -115,17 +99,40 @@
 			});
 		},
 		
-		update: function(element, valueAccessor, allBindingsAccessor, viewModel)
-		{
+		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 			console.log("jPlayer updated! Now playing "
-						+ viewModel.json().songTitle
-						+ " by "
-						+ viewModel.json().artistSummary
-						+ " at URL "
-						+ viewModel.json().audioURL);
+						+ viewModel.currentSong() + " at URL "
+						+ viewModel.currentSong().url());
 			$(element).jPlayer("clearMedia").jPlayer("setMedia", {
-				mp3: viewModel.json().audioURL
+				mp3: viewModel.currentSong().url()
 			}).jPlayer("play");
 		}
 	};
-}(jQuery));
+	
+	$(document).ready(function() {
+		vm = new ViewModel();
+		window.vm = vm;
+		
+		ko.applyBindings(vm);
+		
+		bridge = new Bridge({ apiKey: "// FILL IN" });
+		console.debug("Bridge is initialized");
+		
+		bridge.ready(function() {
+			
+			console.debug("Bridge is ready");
+			bridge.getService("pandora", function(service) {
+				
+				console.debug("Got pandora service");
+				pandora = service;
+				
+				pandora.getStationList(function(data) {
+					
+					vm.stations(data);
+					vm.switchStation(vm.quickMix());
+				});
+			});
+		});
+	});
+
+})(jQuery);
