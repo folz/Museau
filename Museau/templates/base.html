@@ -24,11 +24,15 @@
 				<div class="navbar-inner">
 					<div class="container">
 						<a class="brand" href="{% url home %}">Museau</a>
-						<ul class="nav pull-right">
-							<li>
-								<a href="{% url auth_logout %}">Log out</a>
-							</li>
-						</ul> <!-- .nav.pull-right -->
+						<ul class="nav">
+							<li><a href="{% url home %}">Home</a></li>
+						</ul> <!-- .nav -->
+						{% block nav %}
+							<ul class="nav pull-right">
+								<li><a href="{% url auth_login %}">Log in</a></li> 
+								<li><a href="http://www.pandora.com/#/account/register">Register</a></li>
+							</ul>
+						{% endblock %}
 					</div> <!-- .container -->
 				</div> <!-- .navbar-inner -->
 			</div> <!-- .navbar.navbar-fixed-top -->
