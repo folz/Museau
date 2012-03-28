@@ -122,10 +122,15 @@
 				
 				pandora = service;
 				
-				pandora.getStationList(function(data) {
-					
-					vm.stations(data);
-					vm.switchStation(vm.quickMix());
+				pandora.authenticate("", "", function() {
+					pandora.getStationList(function(data) {
+						
+						for (var i = 0, l = data.length; i < l; i++) {
+							vm.stations.push(new Station(data[i]));
+						}
+						
+						vm.switchStation(vm.quickMix());
+					});
 				});
 			});
 		});
