@@ -27,12 +27,26 @@
 						<ul class="nav">
 							<li><a href="{% url home %}">Home</a></li>
 						</ul> <!-- .nav -->
-						{% block nav %}
-							<ul class="nav pull-right">
-								<li><a href="{% url auth_login %}">Log in</a></li> 
-								<li><a href="http://www.pandora.com/#/account/register">Register</a></li>
-							</ul>
-						{% endblock %}
+						<ul class="nav pull-right">
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="icon-user icon-white"></i>
+									TODO: Implement client-side login
+									<strong class="caret"></strong>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="#">Edit Profile</a>
+									</li>
+									<li><a href="http://www.pandora.com/#!/account/help">Change password</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="#">Log out</a>
+									</li>
+								</ul> <!-- .dropdown-menu -->
+							</li> <!-- .dropdown -->
+						</ul> <!-- .nav.pull-right -->
 					</div> <!-- .container -->
 				</div> <!-- .navbar-inner -->
 			</div> <!-- .navbar.navbar-fixed-top -->
@@ -49,10 +63,15 @@
 <!-- Google Analytics -->
 <script type="text/javascript">
 	head.js('{{ STATIC_URL }}js/jquery-1.7.2.js'
-		  , '{{ STATIC_URL }}js/bridge.min.js'
-		  , '{{ STATIC_URL }}js/bootstrap.js'
-{% block scripts %}{% endblock %}
-		);
+			, '{{ STATIC_URL }}js/bridge.min.js'
+			, '{{ STATIC_URL }}js/bootstrap.js'
+			, '{{ STATIC_URL }}js/bootstrap.js'
+			, '{{ STATIC_URL }}js/jquery.tmpl.js'
+			, '{{ STATIC_URL }}js/knockout-2.0.0.js'
+			, '{{ STATIC_URL }}jplayer/jquery.jplayer.min.js'
+			, '{{ STATIC_URL }}jplayer/add-on/jquery.jplayer.inspector.js'
+			, '{{ STATIC_URL }}js/init.js'
+			);
 </script>
 </body>
 

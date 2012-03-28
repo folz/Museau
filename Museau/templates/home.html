@@ -1,4 +1,4 @@
-{% extends "loggedin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -81,14 +81,4 @@
 </div>
 
 
-
-{% endblock %}
-
-{% block scripts %}
-		, '{{ STATIC_URL }}js/bootstrap.js'
-		, '{{ STATIC_URL }}js/jquery.tmpl.js'
-		, '{{ STATIC_URL }}js/knockout-2.0.0.js'
-		, '{{ STATIC_URL }}jplayer/jquery.jplayer.min.js'
-		, '{{ STATIC_URL }}jplayer/add-on/jquery.jplayer.inspector.js'
-		, '{{ STATIC_URL }}js/init.js'
 {% endblock %}

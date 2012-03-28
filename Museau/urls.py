@@ -1,9 +1,3 @@
-from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
+from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('',
-
-	# Museau
-	
-	url(r'^$', 'Museau.views.home', name='home'),
-)
+urlpatterns = patterns('', url(r'^$', 'Museau.views.home', name='home'))
