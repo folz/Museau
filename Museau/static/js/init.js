@@ -72,7 +72,6 @@
 		ViewModel.prototype.switchStation = function(data) {
 			var self = this;
 			
-			console.log("Switching to ", data['stationName']);
 			pandora.switchStation(data, function() {
 				//this.currentStation(data);
 				self.nextSong();
@@ -117,14 +116,10 @@
 		ko.applyBindings(vm);
 		
 		bridge = new Bridge({ apiKey: "// FILL IN" });
-		console.debug("Bridge is initialized");
-		
 		bridge.ready(function() {
 			
-			console.debug("Bridge is ready");
 			bridge.getService("pandora", function(service) {
 				
-				console.debug("Got pandora service");
 				pandora = service;
 				
 				pandora.getStationList(function(data) {
