@@ -4,9 +4,12 @@
 
 <div class="row">
 	<div id="station" class="span2">
+		<ul class="nav nav-tabs nav-stacked">
+			<li data-bind="text: currentStation['stationName']"></li>
+		</ul>
 		<ul class="nav nav-tabs nav-stacked" data-bind="foreach: stations">
 			<li>
-				<a href="#" data-bind="click: function() { viewModel.switchStation($data) }">
+				<a href="#" data-bind="click: function() { switchStation($data) }">
 					<span data-bind="text: stationName"></span>
 				</a>
 			</li>
@@ -25,10 +28,10 @@
 							<button class="btn">+1</button>
 						</div>
 						<div class="jp-controls btn-group pull-left">
-							<button class="btn" data-bind="click: function() { updateVM() }">&lt;&lt;</button>
+							<button class="btn" data-bind="click: function() { nextSong() }">&lt;&lt;</button>
 							<button href="javascript:;" class="btn jp-play" tabindex="1">play</button>
 							<button href="javascript:;" class="btn jp-pause" tabindex="1">pause</button>
-							<button class="btn" data-bind="click: function() { updateVM() }">&gt;&gt;</button>
+							<button class="btn" data-bind="click: function() { nextSong() }">&gt;&gt;</button>
 						</div>
 						<div class="pull-left">
 							<a data-bind="attr: { href: songUrl }">Download</a>
@@ -58,11 +61,7 @@
 		<div class="jp-title">
 			<ul>
 				<li>Now playing
-					<span data-bind="text: title"></span>
-					by
-					<span data-bind="text: artist"></span>
-					on
-					<span data-bind="text: album"></span>
+					<span data-bind="text: currentSong"></span>
 				</li>
 			</ul>
 		</div> <!-- .jp-title -->
@@ -72,9 +71,9 @@
 	<div id="history" class="span3">
 		<ul class="nav nav-tabs nav-stacked" data-bind="foreach: history">
 			<li>
-				<a href="#" style="overflow: auto" data-bind="click: function() { viewModel.forceUpdateHistory($data) }">
-					<img class="pull-left" width="100px" height="100px" data-bind="attr: { src: artistArtUrl } " />
-					<span data-bind="text: songTitle"></span> by <span data-bind="text: artistSummary"></span>
+				<a href="#" style="overflow: auto" data-bind="click: function() { forceUpdateHistory($data) }">
+					<img class="pull-left" width="100px" height="100px" data-bind="attr: { src: albumArt() } " />
+					<span data-bind="text: $data"></span>
 				</a>
 			</li>
 		</ul>
