@@ -116,9 +116,6 @@
 		},
 		
 		update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-			console.log("jPlayer updated! Now playing "
-						+ viewModel.currentSong() + " at URL "
-						+ viewModel.currentSong().url());
 			$(element).jPlayer("clearMedia").jPlayer("setMedia", {
 				mp3: viewModel.currentSong().url()
 			}).jPlayer("play");
