@@ -16,7 +16,7 @@
 		</ul>
 	</div>
 	
-	<div class="row span7">
+	<div class="row span9">
 		<div id="radio">
 			<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
 			
@@ -65,10 +65,8 @@
 				</li>
 			</ul>
 		</div> <!-- .jp-title -->
-		<img data-bind="attr: { src: albumArt } " />
 	</div>
-
-	<div id="history" class="span3">
+	<div id="history" class="row span9 offset2">
 		<ul class="nav nav-tabs nav-stacked" data-bind="foreach: history">
 			<li>
 				<a href="#" style="overflow: auto" data-bind="click: function() { forceUpdateHistory($data) }">
