@@ -1,6 +1,4 @@
-FlotypeBridge==0.1.8
 distribute==0.6.24
 gunicorn==0.14.2
-python-pandora==0.7-33
 tornado==2.2
 wsgiref==0.1.2
