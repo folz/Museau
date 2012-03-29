@@ -166,7 +166,7 @@
 							});
 						});
 					} else {
-						console.log("Authentication failed");
+						alert("Authentication failed");
 					}
 				});
 			});
