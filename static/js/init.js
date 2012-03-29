@@ -132,8 +132,9 @@
 		
 		ko.applyBindings(vm);
 		
-		var username = prompt("Username");
-		var password = prompt("Password");
+		alert("Enter your Pandora email and password when prompted. Your information is not stored.\n\n(TODO: actual login UI)");
+		var username = prompt("Pandora email address");
+		var password = prompt("Pandora password");
 		
 		bridge = new Bridge({ apiKey: "5bffd2de" });
 		bridge.ready(function() {
