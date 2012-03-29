@@ -135,7 +135,7 @@
 		var username = prompt("Username");
 		var password = prompt("Password");
 		
-		bridge = new Bridge({ apiKey: "// FILL IN" });
+		bridge = new Bridge({ apiKey: "5bffd2de" });
 		bridge.ready(function() {
 			
 			bridge.getService("pandora", function(service) {
