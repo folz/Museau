@@ -7,8 +7,7 @@
 	var pandora;
 	var vm;
 	
-	var username = prompt("Username");
-	var password = prompt("Password");
+	var apiKey;
 	
 	Station = (function() {
 		
@@ -51,6 +50,8 @@
 	ViewModel = (function() {
 		
 		function ViewModel() {
+			this.username = ko.observable("");
+			
 			this.currentStation = ko.observable(new Station({}));
 			this.stations = ko.observableArray([]);
 			
@@ -82,7 +83,7 @@
 			var self = this;
 			
 			$("#jquery_jplayer_1").jPlayer("pause");
-			pandora.getNextSong(username, function(data) {
+			pandora.getNextSong(apiKey, function(data) {
 				var song = new Song(data);
 				self.forceUpdateHistory(song);
 			});
@@ -91,7 +92,7 @@
 		ViewModel.prototype.switchStation = function(station) {
 			var self = this;
 			
-			pandora.switchStation(username, station.data, function() {
+			pandora.switchStation(apiKey, station.data, function() {
 				self.currentStation(station);
 				self.nextSong();
 			});
@@ -131,6 +132,9 @@
 		
 		ko.applyBindings(vm);
 		
+		var username = prompt("Username");
+		var password = prompt("Password");
+		
 		bridge = new Bridge({ apiKey: "// FILL IN" });
 		bridge.ready(function() {
 			
@@ -138,15 +142,32 @@
 				
 				pandora = service;
 				
-				pandora.authenticate(username, password, function() {
-					pandora.getStationList(username, function(data) {
+				pandora.authenticate(username, password, function(data) {
+					if (data) {
+						vm.username(username);
 						
-						for (var i = 0, l = data.length; i < l; i++) {
-							vm.stations.push(new Station(data[i]));
-						}
-						
-						vm.switchStation(vm.quickMix());
-					});
+						apiKey = data;
+						pandora.getStationList(apiKey, function(data) {
+							
+							for (var i = 0, l = data.length; i < l; i++) {
+								vm.stations.push(new Station(data[i]));
+							}
+							
+							pandora.currentStation(apiKey, function(data) {
+								if (data) {
+									var currStation = ko.utils.arrayFilter(vm.stations(), function(item) {
+										return item.data.stationId == data;
+									})[0];
+									
+									vm.switchStation(currStation);
+								} else {
+									vm.switchStation(vm.quickMix());
+								}
+							});
+						});
+					} else {
+						console.log("Authentication failed");
+					}
 				});
 			});
 		});
