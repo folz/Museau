@@ -1,4 +1,7 @@
 ;(function($, undefined) {
+	
+	"use strict"
+	
 	var Station;
 	var Song;
 	var ViewModel;
