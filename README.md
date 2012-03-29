@@ -47,10 +47,10 @@ Install dependencies with pip:
 
 Now the app should be runnable:
 
-`$ python web.py`
+`$ python server.py`
 
 and in a different terminal:
 
-`$ python server.py`
+`$ python app.py`
 
 Open http://127.0.0.1:8000/ in your favorite web browser and enjoy Museau!
