@@ -1,9 +1,10 @@
 #Setup
 
-## Packages
+## Prerequisites
 
 * python (v2.7.x or any compatible implementation, i.e. pypy)
 * python-virtualenv
+* pip
 
 ## Clone the git repository
 
@@ -15,12 +16,13 @@ Create a [Virtualenv](http://pypi.python.org/pypi/virtualenv):
 
 `$ virtualenv venv --distribute`
 
-> New python executable in ./bin/python
+> New python executable in venv/bin/python
 > 
-> Installing setuptools............done.
+> Installing distribute...............done.
+> 
+> Installing pip...............done.
 
-
-Before running pip (or the application), you’ll need to source the Virtualenv environment:
+To activate the new environment, you’ll need to source it:
 
 `$ source venv/bin/activate`
 
@@ -30,54 +32,25 @@ Install dependencies with pip:
 
 `$ pip install -r requirements.txt`
 
-> Downloading/unpacking psycopg2==2.4.2 (from -r requirements.txt (line 2))
+> Downloading/unpacking tornado==2.2 (from -r requirements.txt (line 5))
 > 
-> Downloading psycopg2-2.4.2.tar.gz (667Kb): 667Kb downloaded
+>   Downloading tornado-2.2.tar.gz (330Kb): 330Kb downloaded
 > 
-> Running setup.py egg_info for package psycopg2
+>   Running setup.py egg_info for package tornado
 > 
->   no previously-included directories found matching 'doc/src/_build'
+> [...]
 > 
-> Downloading/unpacking Django==1.3 (from -r requirements.txt (line 1))
-> 
-> Downloading Django-1.3.tar.gz (6.5Mb): 6.5Mb downloaded
-> 
-> Running setup.py egg_info for package Django
-> 
-> Installing collected packages: Django, psycopg2
-> 
-> ...
-> 
-> Successfully installed Django psycopg2
+> Successfully installed FlotypeBridge gunicorn python-pandora tornado
 > 
 > Cleaning up...
 
-Create the database for the first time:
 
-`$ python Museau/manage.py syncdb`
+Now the app should be runnable:
 
-> Creating tables ...
-> 
-> Installing custom SQL ...
-> 
-> Installing indexes ...
-> 
-> No fixtures found.
+`$ python web.py`
 
-Now the Django app should be runnable:
+and in a different terminal:
 
-`$ python Museau/manage.py runserver`
-
-> Validating models...
-> 
-> 
-> 
-> 0 errors found
-> 
-> Django version 1.3, using settings 'Museau.settings'
-> 
-> Development server is running at http://127.0.0.1:8000/
-> 
-> Quit the server with CONTROL-C.
+`$ python server.py`
 
 Open http://127.0.0.1:8000/ in your favorite web browser and enjoy Museau!
