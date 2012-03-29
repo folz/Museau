@@ -95,6 +95,7 @@
 		ViewModel.prototype.switchStation = function(station) {
 			var self = this;
 			
+			$("#jquery_jplayer_1").jPlayer("pause");
 			pandora.switchStation(apiKey, station.data, function() {
 				self.currentStation(station);
 				self.nextSong();
