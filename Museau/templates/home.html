@@ -1,84 +1,150 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
-{% block content %}
-
-<div class="row">
-	<div id="station" class="span2">
-		<ul class="nav nav-tabs nav-stacked">
-			<li data-bind="text: currentStation"></li>
-		</ul>
-		<ul class="nav nav-tabs nav-stacked" data-bind="foreach: stations">
-			<li>
-				<a href="#" data-bind="click: function() { vm.switchStation($data) }">
-					<span data-bind="text: $data"></span>
-				</a>
-			</li>
-		</ul>
-	</div>
+<head>
+	<title>Museau</title>
 	
-	<div class="row">
-		<div class="span9">
-			<div id="radio">
-				<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+	<link rel="icon" type="image/png" href="favicon.png" />
+	
+	<script type="text/javascript" src="static/js/head.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="static/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="static/jplayer/jplayer.blue.monday/jplayer.blue.monday.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="static/css/styles.css" />
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<div class="navbar navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="brand" href="#">Museau</a>
+						<ul class="nav pull-right">
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="icon-user icon-white"></i>
+									<span data-bind="text: username"></span>
+									<strong class="caret"></strong>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="#">Edit Profile</a>
+									</li>
+									<li><a href="http://www.pandora.com/#!/account/help">Change password</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="#">Log out</a>
+									</li>
+								</ul> <!-- .dropdown-menu -->
+							</li> <!-- .dropdown -->
+						</ul> <!-- .nav.pull-right -->
+					</div> <!-- .container -->
+				</div> <!-- .navbar-inner -->
+			</div> <!-- .navbar.navbar-fixed-top -->
+		</div>
+		<div id="content" class="container">
+			<div class="row">
+				<div id="station" class="span2">
+					<ul class="nav nav-tabs nav-stacked">
+						<li data-bind="text: currentStation"></li>
+					</ul>
+					<ul class="nav nav-tabs nav-stacked" data-bind="foreach: stations">
+						<li>
+							<a href="#" data-bind="click: function() { vm.switchStation($data) }">
+								<span data-bind="text: $data"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
 				
-				<div id="jp_container_1" class="jp-audio">
-					<div class="jp-type-single">
-						<div class="jp-gui jp-interface">
-							<div class="jp-controls btn-group pull-left">
-								<button class="btn">-1</button>
-								<button class="btn">+1</button>
-							</div>
-							<div class="jp-controls btn-group pull-left">
-								<button class="btn" data-bind="click: function() { nextSong() }">&lt;&lt;</button>
-								<button href="javascript:;" class="btn jp-play" tabindex="1">play</button>
-								<button href="javascript:;" class="btn jp-pause" tabindex="1">pause</button>
-								<button class="btn" data-bind="click: function() { nextSong() }">&gt;&gt;</button>
-							</div>
-							<div class="pull-left">
-								<a data-bind="attr: { href: songUrl }">Download</a>
-								<span>(right click, Save As)</span>
-							</div>
-							<div class="jp-progress">
-								<div class="jp-seek-bar">
-									<div class="jp-play-bar"></div>
-								</div>
-							</div>
-							<div class="jp-volume-bar">
-								<div class="jp-volume-bar-value"></div>
-							</div>
-							<div class="jp-time-holder">
-								<div class="jp-current-time"></div>
-								<div class="jp-duration"></div>
-							</div>
-						</div> <!-- .jp-gui.jp-interface -->
-						<div class="jp-no-solution">
-							<span>Update Required</span>
-							To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-						</div> <!-- .jp-no-solution -->
-					</div> <!-- .jp-type-single -->
-				</div> <!-- #jp-container-1.jp-audio -->
-			</div> <!-- #radio -->
+				<div class="row">
+					<div class="span9">
+						<div id="radio">
+							<div id="jquery_jplayer_1" class="jp-jplayer" data-bind="jPlayer: ''"></div>
+							
+							<div id="jp_container_1" class="jp-audio">
+								<div class="jp-type-single">
+									<div class="jp-gui jp-interface">
+										<div class="jp-controls btn-group pull-left">
+											<button class="btn">-1</button>
+											<button class="btn">+1</button>
+										</div>
+										<div class="jp-controls btn-group pull-left">
+											<button class="btn" data-bind="click: function() { nextSong() }">&lt;&lt;</button>
+											<button href="javascript:;" class="btn jp-play" tabindex="1">play</button>
+											<button href="javascript:;" class="btn jp-pause" tabindex="1">pause</button>
+											<button class="btn" data-bind="click: function() { nextSong() }">&gt;&gt;</button>
+										</div>
+										<div class="pull-left">
+											<a data-bind="attr: { href: songUrl }">Download</a>
+											<span>(right click, Save As)</span>
+										</div>
+										<div class="jp-progress">
+											<div class="jp-seek-bar">
+												<div class="jp-play-bar"></div>
+											</div>
+										</div>
+										<div class="jp-volume-bar">
+											<div class="jp-volume-bar-value"></div>
+										</div>
+										<div class="jp-time-holder">
+											<div class="jp-current-time"></div>
+											<div class="jp-duration"></div>
+										</div>
+									</div> <!-- .jp-gui.jp-interface -->
+									<div class="jp-no-solution">
+										<span>Update Required</span>
+										To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+									</div> <!-- .jp-no-solution -->
+								</div> <!-- .jp-type-single -->
+							</div> <!-- #jp-container-1.jp-audio -->
+						</div> <!-- #radio -->
 
-			<div class="jp-title">
-				<ul>
-					<li>Now playing
-						<span data-bind="text: currentSong"></span>
-					</li>
-				</ul>
-			</div> <!-- .jp-title -->
+						<div class="jp-title">
+							<ul>
+								<li>Now playing
+									<span data-bind="text: currentSong"></span>
+								</li>
+							</ul>
+						</div> <!-- .jp-title -->
+					</div>
+					
+					<div id="history" class="span9">
+						<ul class="nav nav-tabs nav-stacked" data-bind="foreach: history">
+							<li>
+								<a href="#" style="overflow: auto" data-bind="click: function() { vm.forceUpdateHistory($data) }">
+									<img class="pull-left" width="100px" height="100px" data-bind="attr: { src: albumArt() } " />
+									<span data-bind="text: $data"></span>
+								</a>
+							</li>
+						</ul>
+					</div>
+			</div>
 		</div>
-		
-		<div id="history" class="span9">
-			<ul class="nav nav-tabs nav-stacked" data-bind="foreach: history">
-				<li>
-					<a href="#" style="overflow: auto" data-bind="click: function() { vm.forceUpdateHistory($data) }">
-						<img class="pull-left" width="100px" height="100px" data-bind="attr: { src: albumArt() } " />
-						<span data-bind="text: $data"></span>
-					</a>
-				</li>
-			</ul>
-		</div>
-</div>
+		<footer>
+			<em>Go beyond the impossible and kick reason to the curb!</em>
+		</footer>
+	</div> <!-- #wrapper -->
 
 
-{% endblock %}
+<!-- Google Analytics -->
+<script type="text/javascript">
+	head.js('static/js/jquery-1.7.2.js'
+			, 'static/js/bridge.min.js'
+			, 'static/js/bootstrap.js'
+			, 'static/js/bootstrap.js'
+			, 'static/js/jquery.tmpl.js'
+			, 'static/js/knockout-2.0.0.js'
+			, 'static/jplayer/jquery.jplayer.min.js'
+			, 'static/jplayer/add-on/jquery.jplayer.inspector.js'
+			, 'static/js/init.js'
+			);
+</script>
+</body>
+
+</html>
