@@ -3,8 +3,6 @@ import os
 import tornado.ioloop
 import tornado.web
 
-import server
-
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
 }
