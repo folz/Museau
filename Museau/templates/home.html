@@ -104,14 +104,7 @@
 								</div> <!-- .jp-type-single -->
 							</div> <!-- #jp-container-1.jp-audio -->
 						</div> <!-- #radio -->
-
-						<div class="jp-title">
-							<ul>
-								<li>Now playing
-									<span data-bind="text: currentSong"></span>
-								</li>
-							</ul>
-						</div> <!-- .jp-title -->
+						<div class="jp-title" data-bind="text: 'Now playing: ' + currentSong()"></div>
 					</div>
 					
 					<div id="history" class="span9">
